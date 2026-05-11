@@ -25,7 +25,8 @@
     <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/jquery.dataTables.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/style.css">
-    <!-- Modernize js -->
+    <!-- Class Record CSS -->
+    <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/class-record.css">
     <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/modernizr-3.6.0.min.js"></script>
 </head>
 
@@ -39,7 +40,7 @@
             <div class="nav-bar-header-one">
                 <div class="header-logo">
                     <a href="index.html">
-                        <img src="img/Novaliches_High_School_Logo.png" style="width: 100px; margin-left: 50px;" alt="logo">
+                        <img src="<%= process.env.NOVA_HOSTNAME %>assets/img/Novaliches_High_School_Logo.png" style="width: 100px; margin-left: 50px;" alt="logo">
                     </a>
                 </div>
                   <div class="toggle-button sidebar-toggle">
@@ -464,7 +465,7 @@
                         <div style="width:100%; border:2px solid #000; background:#fff;">
 
     <!-- TITLE -->
-    <table style="width:100%; border-collapse:collapse;">
+    <table class="header-table" style="width:100%; border-collapse:collapse;">
         <tr>
             <td style="border:1px solid #000; text-align:center; font-size:32px; font-weight:bold; padding:10px;">
                 Class Record
@@ -473,7 +474,7 @@
     </table>
 
     <!-- HEADER -->
-    <table style="width:100%; border-collapse:collapse;">
+    <table class="header-table" style="width:100%; border-collapse:collapse;">
         <tr>
 
             <!-- LEFT LOGO -->
@@ -536,7 +537,7 @@
     </table>
 
     <!-- SUBJECT HEADER -->
-    <table style="width:100%; border-collapse:collapse;">
+    <table class="header-table" style="width:100%; border-collapse:collapse;">
         <tr>
 
             <td style="border:1px solid #000; font-weight:bold; text-align:center; padding:10px;">
@@ -561,27 +562,16 @@
         </tr>
     </table>
 
+                        <div class="class-record-container">
     <!-- MAIN TABLE -->
-    <table style="width:100%; border-collapse:collapse;">
+    <table class="class-record-table" style="width:100%; border-collapse:collapse;">
 
         <!-- MAIN CATEGORY HEADERS -->
         <tr>
 
-            <th rowspan="2" style="border:1px solid #000; font-size:22px; font-weight:bold; padding:14px; min-width:260px;">
+            <th rowspan="2" class="student-name" style="border:1px solid #000; font-size:22px; font-weight:bold; padding:14px; min-width:260px;">
                 LEARNERS' NAMES
             </th>
-
-            <!-- <th colspan="8" style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef; padding:14px;">
-                WRITTEN / ORAL WORKS (20%)
-            </th>
-
-            <th colspan="6" style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef; padding:14px;">
-                PRODUCT / PERFORMANCE TASKS (50%)
-            </th>
-
-            <th colspan="6" style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef; padding:14px;">
-                SUMMATIVE TESTS AND TERM EXAMINATIONS (30%)
-            </th> -->
 
             <!-- version 2 -->
             <th colspan="8"
@@ -749,16 +739,101 @@
 
         <!-- MALE -->
         <tr>
-
             <td style="border:1px solid #000; background:#f7f7f7; font-weight:bold; text-align:left; padding-left:10px;">
                 MALE
             </td>
-
             <td colspan="24" style="border:1px solid #000;"></td>
-
         </tr>
 
-        <!-- STUDENT 1 -->
+        <% if (typeof students !== 'undefined' && students.length > 0) { %>
+            <% students.forEach((student, index) => { %>
+        <!-- STUDENT <%= index + 1 %> -->
+        <tr>
+            <td class="student-name" style="border:1px solid #000; text-align:left; padding-left:10px;">
+                <%= index + 1 %>. <%= student.name %>
+            </td>
+            <% for (let i = 0; i < 5; i++) { %>
+            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
+                <input 
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="3"
+                    value="<%= student.writtenScores ? student.writtenScores[i] || '' : '' %>"
+                    style="
+                        width:45px;
+                        height:35px;
+                        border:none;
+                        text-align:center;
+                        font-size:16px;
+                        outline:none;
+                        background:transparent;
+                        padding:0;
+                        margin:0;
+                    "
+                >
+            </td>
+            <% } %>
+            <td style="border:1px solid #000;"><%= student.writtenTotal || '' %></td>
+            <td style="border:1px solid #000;"><%= student.writtenPS || '' %></td>
+            <td style="border:1px solid #000;"><%= student.writtenWS || '' %></td>
+
+            <% for (let i = 0; i < 3; i++) { %>
+            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
+                <input 
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="3"
+                    value="<%= student.performanceScores ? student.performanceScores[i] || '' : '' %>"
+                    style="
+                        width:45px;
+                        height:35px;
+                        border:none;
+                        text-align:center;
+                        font-size:16px;
+                        outline:none;
+                        background:transparent;
+                        padding:0;
+                        margin:0;
+                    "
+                >
+            </td>
+            <% } %>
+            <td style="border:1px solid #000;"><%= student.performanceTotal || '' %></td>
+            <td style="border:1px solid #000;"><%= student.performancePS || '' %></td>
+            <td style="border:1px solid #000;"><%= student.performanceWS || '' %></td>
+
+            <% for (let i = 0; i < 3; i++) { %>
+            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
+                <input 
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="3"
+                    value="<%= student.examScores ? student.examScores[i] || '' : '' %>"
+                    style="
+                        width:45px;
+                        height:35px;
+                        border:none;
+                        text-align:center;
+                        font-size:16px;
+                        outline:none;
+                        background:transparent;
+                        padding:0;
+                        margin:0;
+                    "
+                >
+            </td>
+            <% } %>
+            <td style="border:1px solid #000;"><%= student.examTotal || '' %></td>
+            <td style="border:1px solid #000;"><%= student.examPS || '' %></td>
+            <td style="border:1px solid #000;"><%= student.examWS || '' %></td>
+
+            <td style="border:1px solid #000;"><%= student.initialGrade || '' %></td>
+            <td style="border:1px solid #000; <%= student.termGrade < 75 ? 'color:red;' : '' %> font-weight:bold;"><%= student.termGrade || '' %></td>
+            <td style="border:1px solid #000; <%= student.termGrade < 75 ? 'color:red;' : '' %> font-weight:bold;"><%= student.descriptor || '' %></td>
+        </tr>
+            <% }); %>
+        <% } else { %>
+        <!-- STUDENT 1 (fallback) -->
         <tr>
 
             <td style="border:1px solid #000; text-align:left; padding-left:10px;">
@@ -1042,6 +1117,7 @@
             </td>
 
         </tr>
+        <% } %>
 
         <!-- EMPTY ROWS -->
         <tr>
