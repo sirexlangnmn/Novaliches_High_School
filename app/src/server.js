@@ -160,7 +160,6 @@ require('../routes/password.routes.js')(app);
 require('../routes/upload.routes.js')(app);
 require('../routes/email-marketing.routes.js')(app);
 require('../routes/forgot-password.routes.js')(app);
-require('../email_controllers/cron-email.controller.js')(app);
 
 const pdfService = require('../services/pdf-service');
 const pdfServiceForTrader = require('../services/pdf-trader');
@@ -350,6 +349,41 @@ app.get(['/'], (req, res) => {
         };
 
         res.render(path.join(__dirname, '../../', 'public/view/home/home'), {
+            data: sessionData,
+        });
+    }
+});
+
+
+app.get(['/class-record'], (req, res) => {
+    if (req.session.user === undefined) {
+        const sessionData = {
+            uuid: '',
+            type: '',
+            first_name: '',
+            last_name: '',
+            email: '',
+            country: '',
+            state_or_province: '',
+            ourGenerateNonce: lodashNonce,
+        };
+
+        res.render(path.join(__dirname, '../../', 'public/view/class-record/class-record'), {
+            data: sessionData,
+        });
+    } else {
+        const sessionData = {
+            uuid: req.session.user.uuid,
+            type: req.session.user.type,
+            first_name: req.session.user.first_name,
+            last_name: req.session.user.last_name,
+            email: req.session.user.email_or_social_media,
+            country: req.session.user.country,
+            state_or_province: req.session.user.state_or_province,
+            ourGenerateNonce: lodashNonce,
+        };
+
+        res.render(path.join(__dirname, '../../', 'public/view/class-record/class-record'), {
             data: sessionData,
         });
     }

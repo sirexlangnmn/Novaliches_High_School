@@ -1,10 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
-    const Users_accounts = sequelize.define('users_accounts', {
-        email_or_social_media: {
+    const Users_accounts = sequelize.define('user_accounts', {
+        email_address: {
             type: Sequelize.STRING,
-        },
-        social_media_contact_type: {
-            type: Sequelize.TINYINT,
         },
         contact_number: {
             type: Sequelize.STRING,
@@ -12,17 +9,17 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING,
         },
-        type: {
+        accountType: {
             type: Sequelize.TINYINT,
         },
-        status: {
+        isVerified: {
+            type: Sequelize.TINYINT,
+        },
+        isActive: {
             type: Sequelize.TINYINT,
         },
         verification_code: {
             type: Sequelize.STRING,
-        },
-        login_status: {
-            type: Sequelize.TINYINT,
         },
         uuid: {
             type: Sequelize.STRING,
