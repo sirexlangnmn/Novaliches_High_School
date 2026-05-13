@@ -745,379 +745,10 @@
             <td colspan="24" style="border:1px solid #000;"></td>
         </tr>
 
-        <% if (typeof students !== 'undefined' && students.length > 0) { %>
-            <% students.forEach((student, index) => { %>
-        <!-- STUDENT <%= index + 1 %> -->
-        <tr>
-            <td class="student-name" style="border:1px solid #000; text-align:left; padding-left:10px;">
-                <%= index + 1 %>. <%= student.name %>
-            </td>
-            <% for (let i = 0; i < 5; i++) { %>
-            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    value="<%= student.writtenScores ? student.writtenScores[i] || '' : '' %>"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <% } %>
-            <td style="border:1px solid #000;"><%= student.writtenTotal || '' %></td>
-            <td style="border:1px solid #000;"><%= student.writtenPS || '' %></td>
-            <td style="border:1px solid #000;"><%= student.writtenWS || '' %></td>
-
-            <% for (let i = 0; i < 3; i++) { %>
-            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    value="<%= student.performanceScores ? student.performanceScores[i] || '' : '' %>"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <% } %>
-            <td style="border:1px solid #000;"><%= student.performanceTotal || '' %></td>
-            <td style="border:1px solid #000;"><%= student.performancePS || '' %></td>
-            <td style="border:1px solid #000;"><%= student.performanceWS || '' %></td>
-
-            <% for (let i = 0; i < 3; i++) { %>
-            <td class="input-cell" style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    value="<%= student.examScores ? student.examScores[i] || '' : '' %>"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <% } %>
-            <td style="border:1px solid #000;"><%= student.examTotal || '' %></td>
-            <td style="border:1px solid #000;"><%= student.examPS || '' %></td>
-            <td style="border:1px solid #000;"><%= student.examWS || '' %></td>
-
-            <td style="border:1px solid #000;"><%= student.initialGrade || '' %></td>
-            <td style="border:1px solid #000; <%= student.termGrade < 75 ? 'color:red;' : '' %> font-weight:bold;"><%= student.termGrade || '' %></td>
-            <td style="border:1px solid #000; <%= student.termGrade < 75 ? 'color:red;' : '' %> font-weight:bold;"><%= student.descriptor || '' %></td>
-        </tr>
-            <% }); %>
-        <% } else { %>
-        <!-- STUDENT 1 (fallback) -->
-        <tr>
-
-            <td style="border:1px solid #000; text-align:left; padding-left:10px;">
-                1. Dela Cruz, Juan
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="2"
-                    min="0"
-                    max="10"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000;">82.67</td>
-            <td style="border:1px solid #000;">41.34</td>
-
-            <td style="border:1px solid #000;">30</td>
-
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000;">82.31</td>
-            <td style="border:1px solid #000;">24.69</td>
-            <td style="border:1px solid #000;">82.03</td>
-
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000; padding:0; width:45px; height:35px;">
-                <input 
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="3"
-                    style="
-                        width:45px;
-                        height:35px;
-                        border:none;
-                        text-align:center;
-                        font-size:16px;
-                        outline:none;
-                        background:transparent;
-                        padding:0;
-                        margin:0;
-                    "
-                >
-            </td>
-            <td style="border:1px solid #000;">82.31</td>
-            <td style="border:1px solid #000;">24.69</td>
-            <td style="border:1px solid #000;">82.03</td>
-            <td style="border:1px solid #000;">82.03</td>
-            <td style="border:1px solid #000; font-weight:bold;">
-                Benchmarking
-            </td>
-
-        </tr>
-
-        <!-- STUDENT 2 -->
-        <tr>
-
-            <td style="border:1px solid #000; text-align:left; padding-left:10px;">
-                2. Manalo, Nick
-            </td>
-
-            <td style="border:1px solid #000;">6</td>
-            <td style="border:1px solid #000;">2</td>
-            <td style="border:1px solid #000;">4</td>
-            <td style="border:1px solid #000;">8</td>
-            <td style="border:1px solid #000;">4</td>
-            <td style="border:1px solid #000;">24</td>
-            <td style="border:1px solid #000;">48.00</td>
-            <td style="border:1px solid #000;">9.60</td>
-
-            <td style="border:1px solid #000;">25</td>
-            <td style="border:1px solid #000;">18</td>
-            <td style="border:1px solid #000;">25</td>
-            <td style="border:1px solid #000;">68</td>
-            <td style="border:1px solid #000;">90.67</td>
-            <td style="border:1px solid #000;">45.34</td>
-
-            <td style="border:1px solid #000;">11</td>
-            <td style="border:1px solid #000;">18</td>
-            <td style="border:1px solid #000;">26</td>
-            <td style="border:1px solid #000;">55</td>
-            <td style="border:1px solid #000;">42.31</td>
-            <td style="border:1px solid #000;">12.69</td>
-
-            <td style="border:1px solid #000;">67.63</td>
-
-            <td style="border:1px solid #000; color:red; font-weight:bold;">
-                73
-            </td>
-
-            <td style="border:1px solid #000; color:red; font-weight:bold;">
-                Developing
-            </td>
-
-        </tr>
-        <% } %>
+        <!-- Dynamic Student Rows -->
+        <tbody id="student-rows">
+            <!-- Rows will be populated by JavaScript -->
+        </tbody>
 
         <!-- EMPTY ROWS -->
         <tr>
@@ -1142,8 +773,8 @@
                 </div>
                 <!-- Student Table Area End Here -->
                 <footer class="footer-wrap-layout1">
-                    <div class="copyright">© Copyrights <a href="all-student.html#">Novaliches High School</a> 2026. All rights reserved. Designed by <a
-                            href="all-student.html#">PsdBosS</a></div>
+                    <div class="copyright">© Copyrights <a href="all-student.html#">Novaliches High School</a> 2026. All rights reserved. Designed with <a
+                            href="all-student.html#">💕</a></div>
                 </footer>
             </div>
         </div>
@@ -1163,6 +794,183 @@
     <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/jquery.dataTables.min.js"></script>
     <!-- Custom Js -->
     <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/main.js"></script>
+
+    <!-- Dynamic Data Loader -->
+    <script>
+        function createStudentRow(student, index) {
+            const row = document.createElement('tr');
+
+            // Student name cell
+            const nameCell = document.createElement('td');
+            nameCell.className = 'student-name';
+            nameCell.style.border = '1px solid #000';
+            nameCell.style.textAlign = 'left';
+            nameCell.style.paddingLeft = '10px';
+            nameCell.textContent = `${index + 1}. ${student.name}`;
+            row.appendChild(nameCell);
+
+            // Written scores (5 inputs)
+            student.writtenScores.forEach(score => {
+                const cell = document.createElement('td');
+                cell.className = 'input-cell';
+                cell.style.border = '1px solid #000';
+                cell.style.padding = '0';
+                cell.style.width = '45px';
+                cell.style.height = '35px';
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.inputMode = 'numeric';
+                input.maxLength = '3';
+                input.value = score || '';
+                input.style.width = '45px';
+                input.style.height = '35px';
+                input.style.border = 'none';
+                input.style.textAlign = 'center';
+                input.style.fontSize = '16px';
+                input.style.outline = 'none';
+                input.style.background = 'transparent';
+                input.style.padding = '0';
+                input.style.margin = '0';
+
+                cell.appendChild(input);
+                row.appendChild(cell);
+            });
+
+            // Written total, PS, WS
+            [student.writtenTotal, student.writtenPS, student.writtenWS].forEach(value => {
+                const cell = document.createElement('td');
+                cell.style.border = '1px solid #000';
+                cell.textContent = value || '';
+                row.appendChild(cell);
+            });
+
+            // Performance scores (3 inputs)
+            student.performanceScores.forEach(score => {
+                const cell = document.createElement('td');
+                cell.className = 'input-cell';
+                cell.style.border = '1px solid #000';
+                cell.style.padding = '0';
+                cell.style.width = '45px';
+                cell.style.height = '35px';
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.inputMode = 'numeric';
+                input.maxLength = '3';
+                input.value = score || '';
+                input.style.width = '45px';
+                input.style.height = '35px';
+                input.style.border = 'none';
+                input.style.textAlign = 'center';
+                input.style.fontSize = '16px';
+                input.style.outline = 'none';
+                input.style.background = 'transparent';
+                input.style.padding = '0';
+                input.style.margin = '0';
+
+                cell.appendChild(input);
+                row.appendChild(cell);
+            });
+
+            // Performance total, PS, WS
+            [student.performanceTotal, student.performancePS, student.performanceWS].forEach(value => {
+                const cell = document.createElement('td');
+                cell.style.border = '1px solid #000';
+                cell.textContent = value || '';
+                row.appendChild(cell);
+            });
+
+            // Exam scores (3 inputs)
+            student.examScores.forEach(score => {
+                const cell = document.createElement('td');
+                cell.className = 'input-cell';
+                cell.style.border = '1px solid #000';
+                cell.style.padding = '0';
+                cell.style.width = '45px';
+                cell.style.height = '35px';
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.inputMode = 'numeric';
+                input.maxLength = '3';
+                input.value = score || '';
+                input.style.width = '45px';
+                input.style.height = '35px';
+                input.style.border = 'none';
+                input.style.textAlign = 'center';
+                input.style.fontSize = '16px';
+                input.style.outline = 'none';
+                input.style.background = 'transparent';
+                input.style.padding = '0';
+                input.style.margin = '0';
+
+                cell.appendChild(input);
+                row.appendChild(cell);
+            });
+
+            // Exam total, PS, WS
+            [student.examTotal, student.examPS, student.examWS].forEach(value => {
+                const cell = document.createElement('td');
+                cell.style.border = '1px solid #000';
+                cell.textContent = value || '';
+                row.appendChild(cell);
+            });
+
+            // Initial grade
+            const initialCell = document.createElement('td');
+            initialCell.style.border = '1px solid #000';
+            initialCell.textContent = student.initialGrade || '';
+            row.appendChild(initialCell);
+
+            // Term grade
+            const termCell = document.createElement('td');
+            termCell.style.border = '1px solid #000';
+            termCell.style.fontWeight = 'bold';
+            if (student.termGrade < 75) {
+                termCell.style.color = 'red';
+            }
+            termCell.textContent = student.termGrade || '';
+            row.appendChild(termCell);
+
+            // Descriptor
+            const descCell = document.createElement('td');
+            descCell.style.border = '1px solid #000';
+            descCell.style.fontWeight = 'bold';
+            if (student.termGrade < 75) {
+                descCell.style.color = 'red';
+            }
+            descCell.textContent = student.descriptor || '';
+            row.appendChild(descCell);
+
+            return row;
+        }
+
+        // Load students data
+        let studentsData = [];
+        if (typeof students !== 'undefined' && students && students.length > 0) {
+            studentsData = students;
+            populateTable(studentsData);
+        } else {
+            fetch('<%= process.env.NOVA_HOSTNAME %>assets/data/students.json')
+                .then(response => response.json())
+                .then(data => {
+                    studentsData = data;
+                    populateTable(studentsData);
+                    console.log('Sample data loaded and table populated:', data);
+                })
+                .catch(error => console.error('Error loading sample data:', error));
+        }
+
+        function populateTable(data) {
+            const tbody = document.getElementById('student-rows');
+            tbody.innerHTML = ''; // Clear existing rows
+            data.forEach((student, index) => {
+                const row = createStudentRow(student, index);
+                tbody.appendChild(row);
+            });
+        }
+    </script>
 
 </body>
 

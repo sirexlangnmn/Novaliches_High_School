@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Juan Dela Cruz",
+        "writtenScores": [8, 9, 7, 10, 8],
+        "writtenTotal": 42,
+        "writtenPS": 84,
+        "writtenWS": 16.8,
+        "performanceScores": [25, 20, 25],
+        "performanceTotal": 70,
+        "performancePS": 93.33,
+        "performanceWS": 46.67,
+        "examScores": [35, 38, 45],
+        "examTotal": 118,
+        "examPS": 78.67,
+        "examWS": 23.6,
+        "initialGrade": 87.07,
+        "termGrade": 85,
+        "descriptor": "Proficient"
+    },
+    {
+        "name": "Maria Santos",
+        "writtenScores": [9, 8, 9, 9, 7],
+        "writtenTotal": 42,
+        "writtenPS": 84,
+        "writtenWS": 16.8,
+        "performanceScores": [22, 24, 23],
+        "performanceTotal": 69,
+        "performancePS": 92,
+        "performanceWS": 46,
+        "examScores": [32, 36, 42],
+        "examTotal": 110,
+        "examPS": 73.33,
+        "examWS": 22,
+        "initialGrade": 84.8,
+        "termGrade": 83,
+        "descriptor": "Proficient"
+    }
+]
