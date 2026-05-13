@@ -580,6 +580,12 @@
                                 </tr>
                             </table>
 
+                            <div style="text-align:right; padding:8px;">
+                                <button onclick="console.log(JSON.stringify(collectAllData(), null, 2))"
+                                    style="padding:8px 20px; font-size:14px; font-weight:bold; cursor:pointer; background:#007bff; color:#fff; border:none; border-radius:4px;">
+                                    Save Grades
+                                </button>
+                            </div>
                             <div class="class-record-container">
                                 <!-- MAIN TABLE -->
                                 <table class="class-record-table" style="width:100%; border-collapse:collapse;">
@@ -820,8 +826,8 @@
         <script>
             function createStudentRow(student, index) {
                 const row = document.createElement('tr');
+                const sid = student.id;
 
-                // Student name cell
                 const nameCell = document.createElement('td');
                 nameCell.className = 'student-name';
                 nameCell.style.border = '1px solid #000';
@@ -830,8 +836,8 @@
                 nameCell.textContent = `${index + 1}. ${student.name}`;
                 row.appendChild(nameCell);
 
-                // Written scores (5 inputs)
-                student.writtenScores.forEach(score => {
+                const writtenFields = ['written-1','written-2','written-3','written-4','written-5'];
+                student.writtenScores.forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -853,22 +859,27 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = writtenFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
 
                     cell.appendChild(input);
                     row.appendChild(cell);
                 });
 
-                // Written total, PS, WS
-                [student.writtenTotal, student.writtenPS, student.writtenWS].forEach(value => {
+                const writtenMeta = ['written-total','written-ps','written-ws'];
+                [student.writtenTotal, student.writtenPS, student.writtenWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = writtenMeta[i];
                     row.appendChild(cell);
                 });
 
-                // Performance scores (3 inputs)
-                student.performanceScores.forEach(score => {
+                const perfFields = ['perf-1','perf-2','perf-3'];
+                student.performanceScores.forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -890,22 +901,27 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = perfFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
 
                     cell.appendChild(input);
                     row.appendChild(cell);
                 });
 
-                // Performance total, PS, WS
-                [student.performanceTotal, student.performancePS, student.performanceWS].forEach(value => {
+                const perfMeta = ['perf-total','perf-ps','perf-ws'];
+                [student.performanceTotal, student.performancePS, student.performanceWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = perfMeta[i];
                     row.appendChild(cell);
                 });
 
-                // Exam scores (3 inputs)
-                student.examScores.forEach(score => {
+                const examFields = ['exam-st1','exam-st2','exam-te'];
+                student.examScores.forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -927,28 +943,33 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = examFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
 
                     cell.appendChild(input);
                     row.appendChild(cell);
                 });
 
-                // Exam total, PS, WS
-                [student.examTotal, student.examPS, student.examWS].forEach(value => {
+                const examMeta = ['exam-total','exam-ps','exam-ws'];
+                [student.examTotal, student.examPS, student.examWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = examMeta[i];
                     row.appendChild(cell);
                 });
 
-                // Initial grade
                 const initialCell = document.createElement('td');
                 initialCell.style.border = '1px solid #000';
                 initialCell.textContent = student.initialGrade || '';
                 initialCell.style.fontSize = '16px';
+                initialCell.dataset.studentId = sid;
+                initialCell.dataset.field = 'initial-grade';
                 row.appendChild(initialCell);
 
-                // Term grade
                 const termCell = document.createElement('td');
                 termCell.style.border = '1px solid #000';
                 termCell.style.fontWeight = 'bold';
@@ -957,9 +978,10 @@
                     termCell.style.color = 'red';
                 }
                 termCell.textContent = student.termGrade || '';
+                termCell.dataset.studentId = sid;
+                termCell.dataset.field = 'term-grade';
                 row.appendChild(termCell);
 
-                // Descriptor
                 const descCell = document.createElement('td');
                 descCell.style.border = '1px solid #000';
                 descCell.style.fontWeight = 'bold';
@@ -968,12 +990,110 @@
                     descCell.style.color = 'red';
                 }
                 descCell.textContent = student.descriptor || '';
+                descCell.dataset.studentId = sid;
+                descCell.dataset.field = 'descriptor';
                 row.appendChild(descCell);
 
                 return row;
             }
 
-            // Load students data
+            function recomputeStudent(studentId) {
+                const getVal = (field) => {
+                    const el = document.querySelector(`input[data-student-id="${studentId}"][data-field="${field}"]`);
+                    const v = el ? parseFloat(el.value) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+                const setCell = (field, value) => {
+                    const cell = document.querySelector(`td[data-student-id="${studentId}"][data-field="${field}"]`);
+                    if (cell) {
+                        const num = parseFloat(value);
+                        cell.textContent = isNaN(num) ? '' : (Number.isInteger(num) ? num : num.toFixed(2));
+                    }
+                };
+
+                const wTotal = getVal('written-1')+getVal('written-2')+getVal('written-3')+getVal('written-4')+getVal('written-5');
+                const wPS = (wTotal / 50) * 100;
+                const wWS = wPS * 0.20;
+                setCell('written-total', wTotal);
+                setCell('written-ps', wPS);
+                setCell('written-ws', wWS);
+
+                const pTotal = getVal('perf-1')+getVal('perf-2')+getVal('perf-3');
+                const pPS = (pTotal / 75) * 100;
+                const pWS = pPS * 0.50;
+                setCell('perf-total', pTotal);
+                setCell('perf-ps', pPS);
+                setCell('perf-ws', pWS);
+
+                const eTotal = getVal('exam-st1')+getVal('exam-st2')+getVal('exam-te');
+                const ePS = (eTotal / 130) * 100;
+                const eWS = ePS * 0.30;
+                setCell('exam-total', eTotal);
+                setCell('exam-ps', ePS);
+                setCell('exam-ws', eWS);
+
+                const initialGrade = wWS + pWS + eWS;
+                setCell('initial-grade', initialGrade);
+
+                const termGrade = Math.round(initialGrade);
+                const termCell = document.querySelector(`td[data-student-id="${studentId}"][data-field="term-grade"]`);
+                if (termCell) {
+                    termCell.textContent = termGrade;
+                    termCell.style.color = termGrade < 75 ? 'red' : '';
+                }
+
+                let descriptor = 'Beginning';
+                if (termGrade >= 90) descriptor = 'Advanced';
+                else if (termGrade >= 85) descriptor = 'Proficient';
+                else if (termGrade >= 80) descriptor = 'Approaching Proficiency';
+                else if (termGrade >= 75) descriptor = 'Developing';
+
+                const descCell = document.querySelector(`td[data-student-id="${studentId}"][data-field="descriptor"]`);
+                if (descCell) {
+                    descCell.textContent = descriptor;
+                    descCell.style.color = termGrade < 75 ? 'red' : '';
+                }
+                console.log('Updated student:', JSON.stringify(collectStudentData(studentId), null, 2));
+            }
+
+            function collectStudentData(studentId) {
+                const row = document.querySelector(`#student-rows tr input[data-student-id="${studentId}"]`)?.closest('tr');
+                if (!row) return null;
+                const nameCell = row.querySelector('td.student-name');
+                const name = nameCell ? nameCell.textContent.replace(/^\d+\.\s*/, '').trim() : '';
+
+                const getInput = (field) => {
+                    const el = row.querySelector(`input[data-field="${field}"]`);
+                    const v = el ? parseFloat(el.value) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+                const getCell = (field) => {
+                    const el = row.querySelector(`td[data-field="${field}"]`);
+                    const v = el ? parseFloat(el.textContent) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+
+                return {
+                    id: studentId,
+                    name,
+                    writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
+                    writtenTotal: getCell('written-total'),
+                    writtenPS: getCell('written-ps'),
+                    writtenWS: getCell('written-ws'),
+                    performanceScores: [getInput('perf-1'), getInput('perf-2'), getInput('perf-3')],
+                    performanceTotal: getCell('perf-total'),
+                    performancePS: getCell('perf-ps'),
+                    performanceWS: getCell('perf-ws'),
+                    examScores: [getInput('exam-st1'), getInput('exam-st2'), getInput('exam-te')],
+                    examTotal: getCell('exam-total'),
+                    examPS: getCell('exam-ps'),
+                    examWS: getCell('exam-ws'),
+                    initialGrade: getCell('initial-grade'),
+                    termGrade: getCell('term-grade'),
+                    descriptor: (row.querySelector('td[data-field="descriptor"]') || {}).textContent || ''
+                };
+            }
+
             let studentsData = [];
             if (typeof students !== 'undefined' && students && students.length > 0) {
                 studentsData = students;
@@ -991,11 +1111,56 @@
 
             function populateTable(data) {
                 const tbody = document.getElementById('student-rows');
-                tbody.innerHTML = ''; // Clear existing rows
+                tbody.innerHTML = '';
                 data.forEach((student, index) => {
                     const row = createStudentRow(student, index);
                     tbody.appendChild(row);
                 });
+            }
+
+            function collectAllData() {
+                const rows = document.querySelectorAll('#student-rows tr');
+                const data = [];
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('td.student-name');
+                    if (!nameCell) return;
+                    const name = nameCell.textContent.replace(/^\d+\.\s*/, '').trim();
+                    const firstInput = row.querySelector('input');
+                    if (!firstInput) return;
+                    const studentId = parseInt(firstInput.dataset.studentId);
+
+                    const getInput = (field) => {
+                        const el = row.querySelector(`input[data-field="${field}"]`);
+                        const v = el ? parseFloat(el.value) : 0;
+                        return isNaN(v) ? 0 : v;
+                    };
+                    const getCell = (field) => {
+                        const el = row.querySelector(`td[data-field="${field}"]`);
+                        const v = el ? parseFloat(el.textContent) : 0;
+                        return isNaN(v) ? 0 : v;
+                    };
+
+                    data.push({
+                        id: studentId,
+                        name,
+                        writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
+                        writtenTotal: getCell('written-total'),
+                        writtenPS: getCell('written-ps'),
+                        writtenWS: getCell('written-ws'),
+                        performanceScores: [getInput('perf-1'), getInput('perf-2'), getInput('perf-3')],
+                        performanceTotal: getCell('perf-total'),
+                        performancePS: getCell('perf-ps'),
+                        performanceWS: getCell('perf-ws'),
+                        examScores: [getInput('exam-st1'), getInput('exam-st2'), getInput('exam-te')],
+                        examTotal: getCell('exam-total'),
+                        examPS: getCell('exam-ps'),
+                        examWS: getCell('exam-ws'),
+                        initialGrade: getCell('initial-grade'),
+                        termGrade: getCell('term-grade'),
+                        descriptor: (row.querySelector('td[data-field="descriptor"]') || {}).textContent || ''
+                    });
+                });
+                return data;
             }
         </script>
 
