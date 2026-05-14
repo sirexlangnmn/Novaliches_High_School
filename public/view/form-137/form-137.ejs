@@ -35,23 +35,23 @@
             <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                     <td style="padding: 8px; width: 18%;">LAST NAME:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="last-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                     <td style="padding: 8px; width: 15%;">FIRST NAME:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="first-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                     <td style="padding: 8px; width: 18%;">NAME EXTN. (Jr.,II):</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="name-ext" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                     <td style="padding: 8px; width: 15%;">MIDDLE NAME:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="middle-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                 </tr>
                 <tr>
                     <td style="padding: 8px;">Learner Reference Number (LRN):</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="lrn" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                     <td style="padding: 8px;">Birthdate (mm/dd/yyyy):</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
+                    <td style="padding: 8px;"><input id="birthdate" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
                     <td style="padding: 8px;">Sex:</td>
                     <td colspan="3" style="padding: 8px;">
-                        <label><input type="radio" name="sex"> Male</label> &nbsp;&nbsp;
-                        <label><input type="radio" name="sex"> Female</label>
+                        <label><input id="sex-male" type="radio" name="sex"> Male</label> &nbsp;&nbsp;
+                        <label><input id="sex-female" type="radio" name="sex"> Female</label>
                     </td>
                 </tr>
             </table>
@@ -102,18 +102,18 @@
         <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 15px 20px;">
             <div style="flex: 1; min-width: 48%; border: 2px solid #000; padding: 10px;">
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
-                    <tr><td colspan="4" style="padding: 6px;"><strong>School:</strong> <input type="text" style="width: 80%; border: none; border-bottom: 1px solid #000;"></td></tr>
+                    <tr><td colspan="4" style="padding: 6px;"><strong>School:</strong> <input id="sch-school" type="text" style="width: 80%; border: none; border-bottom: 1px solid #000;"></td></tr>
                     <tr>
-                        <td style="padding: 6px;"><strong>District:</strong> <input type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Division:</strong> <input type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Region:</strong> <input type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
+                        <td style="padding: 6px;"><strong>District:</strong> <input id="sch-district" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
+                        <td style="padding: 6px;"><strong>Division:</strong> <input id="sch-division" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
+                        <td style="padding: 6px;"><strong>Region:</strong> <input id="sch-region" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="padding: 6px;"><strong>Classified as Grade:</strong> <input type="text" style="width: 60px; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Section:</strong> <input type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>School Year:</strong> <input type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
+                        <td colspan="2" style="padding: 6px;"><strong>Classified as Grade:</strong> <input id="sch-grade" type="text" style="width: 60px; border: none; border-bottom: 1px solid #000;"></td>
+                        <td style="padding: 6px;"><strong>Section:</strong> <input id="sch-section" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
+                        <td style="padding: 6px;"><strong>School Year:</strong> <input id="sch-school-year" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
                     </tr>
-                    <tr><td colspan="4" style="padding: 6px;"><strong>Name of Adviser/Teacher:</strong> <input type="text" style="width: 75%; border: none; border-bottom: 1px solid #000;"></td></tr>
+                    <tr><td colspan="4" style="padding: 6px;"><strong>Name of Adviser/Teacher:</strong> <input id="sch-adviser" type="text" style="width: 75%; border: none; border-bottom: 1px solid #000;"></td></tr>
                 </table>
 
                 <!-- Learning Areas Table -->
@@ -135,7 +135,7 @@
                         <tr><td style="border: 1px solid #000; padding: 5px;">English</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
                         <tr><td style="border: 1px solid #000; padding: 5px;">Mathematics</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
                         <tr><td style="border: 1px solid #000; padding: 5px;">Science</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Araling Panlipunan</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
+                        <tr id="ap-row"><td style="border: 1px solid #000; padding: 5px;">Araling Panlipunan</td><td class="ap-q1" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q2" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q3" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q4" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-final" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-remarks" style="border: 1px solid #000; padding: 5px;"></td></tr>
                         <tr><td style="border: 1px solid #000; padding: 5px;">EPP / TLE</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
                         <tr><td style="border: 1px solid #000; padding: 5px;">MAPEH</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
                         <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">Music</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
@@ -156,5 +156,44 @@
         </div>
     </div>
 
+<script>
+    function parseStudentName(fullName) {
+        const parts = fullName.trim().split(/\s+/);
+        if (parts.length === 1) return { firstName: parts[0], lastName: '', middleName: '' };
+        if (parts.length === 2) return { firstName: parts[0], lastName: parts[1], middleName: '' };
+        const lastName = parts.pop();
+        const firstName = parts.shift();
+        const middleName = parts.join(' ');
+        return { firstName, lastName, middleName };
+    }
+
+    function loadStudentData() {
+        const stored = localStorage.getItem('selectedStudent');
+        if (!stored) return;
+        try {
+            const student = JSON.parse(stored);
+            const { firstName, lastName, middleName } = parseStudentName(student.name);
+
+            document.getElementById('last-name').value = lastName;
+            document.getElementById('first-name').value = firstName;
+            document.getElementById('middle-name').value = middleName;
+
+            const termGrade = student.termGrade;
+            const targetRow = document.querySelector('#ap-row');
+            const q1Cell = targetRow ? targetRow.querySelector('td:nth-child(2)') : null;
+            const finalCell = targetRow ? targetRow.querySelector('td:nth-child(6)') : null;
+            const remarksCell = targetRow ? targetRow.querySelector('td:nth-child(7)') : null;
+            if (q1Cell) q1Cell.textContent = termGrade;
+            if (finalCell) finalCell.textContent = termGrade;
+            if (remarksCell) remarksCell.textContent = termGrade >= 75 ? 'Passed' : 'Failed';
+
+            document.getElementById('sch-school-year').value = '2026-2027';
+        } catch (e) {
+            console.error('Error loading student data:', e);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadStudentData);
+</script>
 </body>
 </html>

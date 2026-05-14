@@ -566,15 +566,18 @@
                                         GRADE & SECTION:
                                     </td>
 
-                                    <td style="border:1px solid #000; font-weight:bold; padding-left:10px;">
-                                        TEACHER:
+                                    <td id="teacher-display" style="border:1px solid #000; font-weight:bold; padding-left:10px;">
+                                        TEACHER: <span id="teacher-name" style="font-weight:normal;">Mrs. Santos</span>
                                     </td>
 
                                     <td style="border:1px solid #000; font-weight:bold; text-align:center;">
                                         SUBJECT:
-                                        <span style="font-weight:normal;">
-                                            ARALING PANLIPUNAN
-                                        </span>
+                                        <select id="subject-select" style="font-size:16px; font-weight:normal; padding:4px 8px; margin-left:6px; border:1px solid #999; border-radius:4px;">
+                                            <option value="Araling Panlipunan">Araling Panlipunan</option>
+                                            <option value="English">English</option>
+                                            <option value="Math">Math</option>
+                                            <option value="Science">Science</option>
+                                        </select>
                                     </td>
 
                                 </tr>
@@ -824,20 +827,32 @@
 
         <!-- Dynamic Data Loader -->
         <script>
+            let currentSubject = 'Araling Panlipunan';
+            let studentsData = { students: [] };
+
             function createStudentRow(student, index) {
                 const row = document.createElement('tr');
                 const sid = student.id;
+                const subj = student.subjects ? student.subjects[currentSubject] : student;
 
                 const nameCell = document.createElement('td');
                 nameCell.className = 'student-name';
                 nameCell.style.border = '1px solid #000';
                 nameCell.style.textAlign = 'left';
                 nameCell.style.paddingLeft = '10px';
+                nameCell.style.cursor = 'pointer';
+                nameCell.title = 'Click to view Form-137';
                 nameCell.textContent = `${index + 1}. ${student.name}`;
+                nameCell.addEventListener('click', () => {
+                    const studentData = collectStudentData(sid);
+                    studentData.subject = currentSubject;
+                    localStorage.setItem('selectedStudent', JSON.stringify(studentData));
+                    window.location.href = '/form-137-ui';
+                });
                 row.appendChild(nameCell);
 
                 const writtenFields = ['written-1','written-2','written-3','written-4','written-5'];
-                student.writtenScores.forEach((score, i) => {
+                (subj.writtenScores || []).forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -868,7 +883,7 @@
                 });
 
                 const writtenMeta = ['written-total','written-ps','written-ws'];
-                [student.writtenTotal, student.writtenPS, student.writtenWS].forEach((value, i) => {
+                [subj.writtenTotal, subj.writtenPS, subj.writtenWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
@@ -879,7 +894,7 @@
                 });
 
                 const perfFields = ['perf-1','perf-2','perf-3'];
-                student.performanceScores.forEach((score, i) => {
+                (subj.performanceScores || []).forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -910,7 +925,7 @@
                 });
 
                 const perfMeta = ['perf-total','perf-ps','perf-ws'];
-                [student.performanceTotal, student.performancePS, student.performanceWS].forEach((value, i) => {
+                [subj.performanceTotal, subj.performancePS, subj.performanceWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
@@ -921,7 +936,7 @@
                 });
 
                 const examFields = ['exam-st1','exam-st2','exam-te'];
-                student.examScores.forEach((score, i) => {
+                (subj.examScores || []).forEach((score, i) => {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -952,7 +967,7 @@
                 });
 
                 const examMeta = ['exam-total','exam-ps','exam-ws'];
-                [student.examTotal, student.examPS, student.examWS].forEach((value, i) => {
+                [subj.examTotal, subj.examPS, subj.examWS].forEach((value, i) => {
                     const cell = document.createElement('td');
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
@@ -964,7 +979,7 @@
 
                 const initialCell = document.createElement('td');
                 initialCell.style.border = '1px solid #000';
-                initialCell.textContent = student.initialGrade || '';
+                initialCell.textContent = subj.initialGrade || '';
                 initialCell.style.fontSize = '16px';
                 initialCell.dataset.studentId = sid;
                 initialCell.dataset.field = 'initial-grade';
@@ -974,10 +989,10 @@
                 termCell.style.border = '1px solid #000';
                 termCell.style.fontWeight = 'bold';
                 termCell.style.fontSize = '16px';
-                if (student.termGrade < 75) {
+                if (subj.termGrade < 75) {
                     termCell.style.color = 'red';
                 }
-                termCell.textContent = student.termGrade || '';
+                termCell.textContent = subj.termGrade || '';
                 termCell.dataset.studentId = sid;
                 termCell.dataset.field = 'term-grade';
                 row.appendChild(termCell);
@@ -986,10 +1001,10 @@
                 descCell.style.border = '1px solid #000';
                 descCell.style.fontWeight = 'bold';
                 descCell.style.fontSize = '16px';
-                if (student.termGrade < 75) {
+                if (subj.termGrade < 75) {
                     descCell.style.color = 'red';
                 }
-                descCell.textContent = student.descriptor || '';
+                descCell.textContent = subj.descriptor || '';
                 descCell.dataset.studentId = sid;
                 descCell.dataset.field = 'descriptor';
                 row.appendChild(descCell);
@@ -1076,6 +1091,7 @@
                 return {
                     id: studentId,
                     name,
+                    subject: currentSubject,
                     writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
                     writtenTotal: getCell('written-total'),
                     writtenPS: getCell('written-ps'),
@@ -1094,25 +1110,32 @@
                 };
             }
 
-            let studentsData = [];
-            if (typeof students !== 'undefined' && students && students.length > 0) {
-                studentsData = students;
-                populateTable(studentsData);
-            } else {
-                fetch('<%= process.env.NOVA_HOSTNAME %>assets/data/students.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        studentsData = data;
-                        populateTable(studentsData);
-                        console.log('Sample data loaded and table populated:', data);
-                    })
-                    .catch(error => console.error('Error loading sample data:', error));
+            function switchSubject(subject) {
+                currentSubject = subject;
+                const firstStudent = studentsData.students[0];
+                if (firstStudent && firstStudent.subjects && firstStudent.subjects[subject]) {
+                    document.getElementById('teacher-name').textContent = firstStudent.subjects[subject].teacher;
+                }
+                populateTable();
             }
 
-            function populateTable(data) {
+            fetch('<%= process.env.NOVA_HOSTNAME %>assets/data/students.json')
+                .then(response => response.json())
+                .then(data => {
+                    studentsData = data;
+                    document.getElementById('teacher-name').textContent = data.students[0].subjects[currentSubject].teacher;
+                    populateTable();
+                })
+                .catch(error => console.error('Error loading data:', error));
+
+            document.getElementById('subject-select').addEventListener('change', function() {
+                switchSubject(this.value);
+            });
+
+            function populateTable() {
                 const tbody = document.getElementById('student-rows');
                 tbody.innerHTML = '';
-                data.forEach((student, index) => {
+                studentsData.students.forEach((student, index) => {
                     const row = createStudentRow(student, index);
                     tbody.appendChild(row);
                 });
@@ -1143,6 +1166,7 @@
                     data.push({
                         id: studentId,
                         name,
+                        subject: currentSubject,
                         writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
                         writtenTotal: getCell('written-total'),
                         writtenPS: getCell('written-ps'),
