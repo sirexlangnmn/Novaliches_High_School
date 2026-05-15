@@ -1,0 +1,15 @@
+perfect, you did it well.
+Again, read my file
+students.ejs,
+students.json
+and
+form-137.ejs
+
+Since we have only have students and grading to Araling Panlipunan.
+Using the existing students.json, create another students data for the other subject like English, Math, Science.
+Even 5 student per subject, I will continue the remaining.
+Then add also data to trace the student who are they teacher for the subject, add also data that every students are in first term of academic year 2026 to 2027.
+Then all of those data is connected to unique id related to the student id that currently we use.
+
+Then in class-record.ejs, add dropdown function so we can choose different subjects.
+Then it will show dynamically in class-record.ejs all students and grades related to that subject.
