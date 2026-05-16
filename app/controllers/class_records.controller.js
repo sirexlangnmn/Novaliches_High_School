@@ -1,0 +1,86 @@
+const db = require('../models/index.js');
+const ecdc = require('../shared/ecdc.js');
+const sequelizeConfig = require('../config/sequelize.config.js');
+
+const Op = db.Sequelize.Op;
+
+
+exports.getByLearningArea = async (req, res) => {
+    try {
+        const { learningAreaCode } = req.body;
+        console.log('class_records.controller getByLearningArea called with:', learningAreaCode)
+
+        if (!learningAreaCode) {
+            return res.status(400).send({ message: 'Learning area code is required' });
+        }
+
+        const learningArea = await db.learning_areas.findOne({
+            where: { code: learningAreaCode, status: 1 },
+        });
+
+        if (!learningArea) {
+            return res.status(404).send({ message: 'Learning area not found' });
+        }
+
+        const schoolYear = await db.school_years.findOne({
+            where: { year: '2024-2025', status: 1 },
+        });
+
+        const lsrWhere = { status: 1 };
+        if (schoolYear) {
+            lsrWhere.school_year_id = schoolYear.id;
+        }
+
+        const records = await db.learner_grades.findAll({
+            where: { learning_area_id: learningArea.id, status: 1 },
+            include: [
+                {
+                    model: db.learner_school_records,
+                    where: lsrWhere,
+                    include: [
+                        {
+                            model: db.academic_records,
+                            include: [
+                                { model: db.learners },
+                            ],
+                        },
+                        { model: db.grade_levels },
+                        { model: db.teachers },
+                    ],
+                },
+            ],
+        });
+
+        const students = records.map((grade) => {
+            const record = grade.learner_school_record;
+            const academic = record ? record.academic_record : null;
+            const learner = academic ? academic.learner : null;
+
+            return {
+                id: learner ? learner.id : null,
+                name: learner
+                    ? `${learner.last_name}, ${learner.first_name} ${learner.middle_name || ''}`.trim()
+                    : 'Unknown',
+                lrn: learner ? learner.lrn : null,
+                gradeLevel: record && record.grade_level ? record.grade_level.name : null,
+                section: record ? record.section : null,
+                teacher: record && record.teacher
+                    ? `${record.teacher.first_name} ${record.teacher.last_name}`
+                    : null,
+                q1: grade.q1,
+                q2: grade.q2,
+                q3: grade.q3,
+                q4: grade.q4,
+                finalRating: grade.final_rating,
+                remarks: grade.remarks,
+            };
+        });
+
+        res.send({
+            learningArea: { id: learningArea.id, name: learningArea.name, code: learningArea.code },
+            students,
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};

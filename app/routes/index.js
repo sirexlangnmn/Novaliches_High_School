@@ -16,8 +16,10 @@ module.exports = (app) => {
     const middleware = require('../middleware');
 
 
-    // const users = require('../controllers/users.controller.js');
+    const learningAreas = require('../controllers/learning_areas.controller.js');
+    const classRecord = require('../controllers/class_records.controller.js');
 
-    // app.post(['/api/get/user'], users.find);
+    app.post(['/api/get/learning-areas/all'], learningAreas.all);
+    app.post(['/api/get/class-records/by-learning-area'], classRecord.getByLearningArea);
 
 };

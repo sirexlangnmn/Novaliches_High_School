@@ -1,201 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learner Permanent Record (SF10-ES)</title>
+    <title>SF10-JHS Form 137</title>
 </head>
-<body style="font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; margin: 0; line-height: 1.4;">
+<body style="font-family: Arial, sans-serif; margin:0; padding:10px; font-size:12px; color:#000;">
 
-    <button onclick="window.print()" style="padding: 10px 30px; font-size: 16px; background: #c8102e; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 10px;">Download</button>
+<div style="text-align:right; margin-bottom:10px;">
+    <button onclick="window.print()" style="padding:8px 20px; font-size:14px; cursor:pointer; background:#007bff; color:#fff; border:none; border-radius:4px;">Print Form 137</button>
+</div>
 
-    <div style="max-width: 1200px; margin: 0 auto; background: white; border: 3px solid #000; box-shadow: 0 0 15px rgba(0,0,0,0.2); overflow: hidden;">
+<table style="width:100%; border-collapse:collapse;">
+    <tr>
+        <td style="width:15%; vertical-align:top;">
+            <img src="{{deped_logo_left}}" style="width:90px; height:auto;">
+        </td>
 
-        <!-- HEADER -->
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 4px solid #000; background: #fff;">
-            <div style="text-align: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Seal_of_the_Department_of_Education_%28Philippines%29.svg/800px-Seal_of_the_Department_of_Education_%28Philippines%29.svg.png" 
-                     style="height: 90px;" alt="DepEd Seal" onerror="this.style.display='none';">
+        <td style="width:70%; text-align:center; vertical-align:middle;">
+            <div style="font-size:18px;">Republic of the Philippines</div>
+            <div style="font-size:20px; margin-top:2px;">Department of Education</div>
+            <div style="font-size:38px; font-weight:bold; margin-top:8px; line-height:40px;">
+                Learner's Permanent Academic Record for Junior High School (SF10-JHS)
             </div>
-            <div style="text-align: center; flex: 1;">
-                <p style="font-size: 14px; margin: 2px 0;">Republic of the Philippines</p>
-                <p style="font-size: 14px; margin: 2px 0;">Department of Education</p>
-                <h2 style="font-size: 22px; margin: 8px 0; font-weight: bold;">Learner Permanent Record for Elementary School (SF10-ES)</h2>
-                <p style="font-size: 13px; margin: 2px 0;">(Formerly Form 137)</p>
+            <div style="font-size:18px; font-style:italic; margin-top:4px;">
+                (Formerly Form 137)
             </div>
-            <div style="text-align: right;">
-                <strong style="color: #c8102e; font-size: 32px;">DepED</strong><br>
-                <span style="font-size: 12px;">DEPARTMENT OF EDUCATION</span>
-            </div>
-        </div>
+        </td>
 
-        <!-- LEARNER'S PERSONAL INFORMATION -->
-        <div style="background: #333; color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 15px;">
-            LEARNER'S PERSONAL INFORMATION
-        </div>
-        <div style="padding: 12px 20px;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <td style="padding: 8px; width: 18%;">LAST NAME:</td>
-                    <td style="padding: 8px;"><input id="last-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                    <td style="padding: 8px; width: 15%;">FIRST NAME:</td>
-                    <td style="padding: 8px;"><input id="first-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                    <td style="padding: 8px; width: 18%;">NAME EXTN. (Jr.,II):</td>
-                    <td style="padding: 8px;"><input id="name-ext" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                    <td style="padding: 8px; width: 15%;">MIDDLE NAME:</td>
-                    <td style="padding: 8px;"><input id="middle-name" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px;">Learner Reference Number (LRN):</td>
-                    <td style="padding: 8px;"><input id="lrn" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                    <td style="padding: 8px;">Birthdate (mm/dd/yyyy):</td>
-                    <td style="padding: 8px;"><input id="birthdate" type="text" style="width: 100%; border: none; border-bottom: 1px solid #000; font-size: 14px;"></td>
-                    <td style="padding: 8px;">Sex:</td>
-                    <td colspan="3" style="padding: 8px;">
-                        <label><input id="sex-male" type="radio" name="sex"> Male</label> &nbsp;&nbsp;
-                        <label><input id="sex-female" type="radio" name="sex"> Female</label>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <td style="width:15%; text-align:right; vertical-align:top;">
+            <img src="{{deped_logo_right}}" style="width:140px; height:auto;">
+        </td>
+    </tr>
+</table>
 
-        <!-- ELIGIBILITY -->
-        <div style="background: #333; color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 15px;">
-            ELIGIBILITY FOR ELEMENTARY SCHOOL ENROLMENT
-        </div>
-        <div style="padding: 12px 20px;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                    <td style="padding: 8px; width: 28%;">Credential Presented for Grade 1:</td>
-                    <td style="padding: 8px;">
-                        <input type="checkbox"> Kinder Progress Report &nbsp;&nbsp;
-                        <input type="checkbox"> ECCD Checklist &nbsp;&nbsp;
-                        <input type="checkbox"> Kindergarten Certificate of Completion
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px;">Name of School:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000;"></td>
-                    <td style="padding: 8px;">School ID:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000;"></td>
-                    <td style="padding: 8px;">Address of School:</td>
-                    <td style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000;"></td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px;">Other Credential Presented:</td>
-                    <td colspan="5" style="padding: 8px;">
-                        <input type="checkbox"> PEPT Passer Rating: 
-                        <input type="text" style="width: 150px; border: none; border-bottom: 1px solid #000;">
-                        &nbsp; Date: <input type="text" style="width: 130px; border: none; border-bottom: 1px solid #000;">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px;">Name and Address of Testing Center:</td>
-                    <td colspan="5" style="padding: 8px;"><input type="text" style="width: 100%; border: none; border-bottom: 1px solid #000;"></td>
-                </tr>
-            </table>
-        </div>
+<!-- LEARNER INFORMATION -->
+<table style="width:100%; border-collapse:collapse; margin-top:10px;">
+    <tr>
+        <td colspan="12" style="background:#d8d2bc; text-align:center; font-weight:bold; font-size:18px; padding:6px; border:1px solid #000;">
+            LEARNER'S INFORMATION
+        </td>
+    </tr>
 
-        <!-- SCHOLASTIC RECORD -->
-        <div style="background: #333; color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 15px;">
+    <tr>
+        <td style="border:1px solid #000; padding:6px; width:12%;">LAST NAME:</td>
+        <td style="border:1px solid #000; padding:6px; width:20%;">{{last_name}}</td>
+
+        <td style="border:1px solid #000; padding:6px; width:12%;">FIRST NAME:</td>
+        <td style="border:1px solid #000; padding:6px; width:20%;">{{first_name}}</td>
+
+        <td style="border:1px solid #000; padding:6px; width:10%;">NAME EXTN:</td>
+        <td style="border:1px solid #000; padding:6px; width:8%;">{{name_extension}}</td>
+
+        <td style="border:1px solid #000; padding:6px; width:10%;">MIDDLE NAME:</td>
+        <td style="border:1px solid #000; padding:6px; width:18%;">{{middle_name}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">LRN:</td>
+        <td colspan="3" style="border:1px solid #000; padding:6px;">{{lrn}}</td>
+
+        <td style="border:1px solid #000; padding:6px;">Birthdate:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{birthdate}}</td>
+
+        <td style="border:1px solid #000; padding:6px;">Sex:</td>
+        <td style="border:1px solid #000; padding:6px;">{{sex}}</td>
+    </tr>
+</table>
+
+<!-- ELIGIBILITY -->
+<table style="width:100%; border-collapse:collapse; margin-top:10px;">
+    <tr>
+        <td colspan="8" style="background:#d8d2bc; text-align:center; font-weight:bold; font-size:18px; padding:6px; border:1px solid #000;">
+            ELIGIBILITY FOR JHS ENROLLMENT
+        </td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px; width:5%; text-align:center;">
+            <div style="width:18px; height:18px; border:1px solid #000; margin:auto;"></div>
+        </td>
+        <td style="border:1px solid #000; padding:6px; width:25%;">Elementary School Completer</td>
+        <td style="border:1px solid #000; padding:6px; width:15%;">General Average:</td>
+        <td style="border:1px solid #000; padding:6px; width:10%;">{{general_average}}</td>
+        <td style="border:1px solid #000; padding:6px; width:10%;">Citation:</td>
+        <td colspan="3" style="border:1px solid #000; padding:6px;">{{citation}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;"></td>
+        <td style="border:1px solid #000; padding:6px;">Name of Elementary School:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{elementary_school}}</td>
+        <td style="border:1px solid #000; padding:6px;">School ID:</td>
+        <td style="border:1px solid #000; padding:6px;">{{school_id}}</td>
+        <td style="border:1px solid #000; padding:6px;">Address:</td>
+        <td style="border:1px solid #000; padding:6px;">{{school_address}}</td>
+    </tr>
+
+    <tr>
+        <td colspan="8" style="border:1px solid #000; padding:6px; font-weight:bold;">
+            Other Credential Presented
+        </td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px; text-align:center;">
+            <div style="width:18px; height:18px; border:1px solid #000; margin:auto;"></div>
+        </td>
+        <td style="border:1px solid #000; padding:6px;">PEPT Passer</td>
+        <td style="border:1px solid #000; padding:6px;">Rating:</td>
+        <td style="border:1px solid #000; padding:6px;">{{pept_rating}}</td>
+
+        <td style="border:1px solid #000; padding:6px; text-align:center;">
+            <div style="width:18px; height:18px; border:1px solid #000; margin:auto;"></div>
+        </td>
+        <td style="border:1px solid #000; padding:6px;">ALS A & E Passer</td>
+        <td style="border:1px solid #000; padding:6px;">Rating:</td>
+        <td style="border:1px solid #000; padding:6px;">{{als_rating}}</td>
+    </tr>
+
+    <tr>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">Date of Examination:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{exam_date}}</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">Testing Center:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{testing_center}}</td>
+    </tr>
+</table>
+
+<!-- SCHOLASTIC RECORD -->
+<table style="width:100%; border-collapse:collapse; margin-top:10px;">
+    <tr>
+        <td colspan="11" style="background:#d8d2bc; text-align:center; font-weight:bold; font-size:18px; padding:6px; border:1px solid #000;">
             SCHOLASTIC RECORD
-        </div>
+        </td>
+    </tr>
 
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 15px 20px;">
-            <div style="flex: 1; min-width: 48%; border: 2px solid #000; padding: 10px;">
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
-                    <tr><td colspan="4" style="padding: 6px;"><strong>School:</strong> <input id="sch-school" type="text" style="width: 80%; border: none; border-bottom: 1px solid #000;"></td></tr>
-                    <tr>
-                        <td style="padding: 6px;"><strong>District:</strong> <input id="sch-district" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Division:</strong> <input id="sch-division" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Region:</strong> <input id="sch-region" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="padding: 6px;"><strong>Classified as Grade:</strong> <input id="sch-grade" type="text" style="width: 60px; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>Section:</strong> <input id="sch-section" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                        <td style="padding: 6px;"><strong>School Year:</strong> <input id="sch-school-year" type="text" style="width: 90%; border: none; border-bottom: 1px solid #000;"></td>
-                    </tr>
-                    <tr><td colspan="4" style="padding: 6px;"><strong>Name of Adviser/Teacher:</strong> <input id="sch-adviser" type="text" style="width: 75%; border: none; border-bottom: 1px solid #000;"></td></tr>
-                </table>
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">School:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{school_name}}</td>
+        <td style="border:1px solid #000; padding:6px;">School ID:</td>
+        <td style="border:1px solid #000; padding:6px;">{{school_id_2}}</td>
+        <td style="border:1px solid #000; padding:6px;">District:</td>
+        <td style="border:1px solid #000; padding:6px;">{{district}}</td>
+        <td style="border:1px solid #000; padding:6px;">Division:</td>
+        <td style="border:1px solid #000; padding:6px;">{{division}}</td>
+        <td style="border:1px solid #000; padding:6px;">Region:</td>
+        <td style="border:1px solid #000; padding:6px;">{{region}}</td>
+    </tr>
 
-                <!-- Learning Areas Table -->
-                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-                    <thead>
-                        <tr style="background: #f0f0f0;">
-                            <th style="border: 1px solid #000; padding: 6px; text-align: left; width: 38%;">LEARNING AREAS</th>
-                            <th style="border: 1px solid #000; padding: 6px;">1</th>
-                            <th style="border: 1px solid #000; padding: 6px;">2</th>
-                            <th style="border: 1px solid #000; padding: 6px;">3</th>
-                            <th style="border: 1px solid #000; padding: 6px;">4</th>
-                            <th style="border: 1px solid #000; padding: 6px;">Final Rating</th>
-                            <th style="border: 1px solid #000; padding: 6px;">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Mother Tongue</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Filipino</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">English</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Mathematics</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Science</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr id="ap-row"><td style="border: 1px solid #000; padding: 5px;">Araling Panlipunan</td><td class="ap-q1" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q2" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q3" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-q4" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-final" style="border: 1px solid #000; padding: 5px;"></td><td class="ap-remarks" style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">EPP / TLE</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">MAPEH</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">Music</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">Arts</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">Physical Education</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">Health</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px;">Eduk. sa Pagpapakatao</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">*Arabic Language</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr><td style="border: 1px solid #000; padding: 5px; padding-left: 25px;">*Islamic Values Education</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                        <tr style="font-weight: bold;"><td style="border: 1px solid #000; padding: 5px;">General Average</td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td><td style="border: 1px solid #000; padding: 5px;"></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Classified as Grade:</td>
+        <td style="border:1px solid #000; padding:6px;">{{grade_level}}</td>
+        <td style="border:1px solid #000; padding:6px;">Section:</td>
+        <td style="border:1px solid #000; padding:6px;">{{section}}</td>
+        <td style="border:1px solid #000; padding:6px;">School Year:</td>
+        <td style="border:1px solid #000; padding:6px;">{{school_year}}</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">Adviser/Teacher:</td>
+        <td colspan="2" style="border:1px solid #000; padding:6px;">{{adviser}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{signature}}</td>
+    </tr>
+</table>
 
-        <div style="text-align: center; padding: 12px; background: #f8f8f8; border-top: 3px solid #000; font-size: 13px;">
-            <strong>SF10-ES</strong> • Learner Permanent Record • Department of Education • Republic of the Philippines
-        </div>
-    </div>
+<!-- GRADES TABLE -->
+<table style="width:100%; border-collapse:collapse; margin-top:0; table-layout:fixed;">
+    <tr>
+        <th rowspan="2" style="border:1px solid #000; padding:6px; width:35%; background:#efefef;">LEARNING AREAS</th>
+        <th colspan="4" style="border:1px solid #000; padding:6px; background:#efefef;">Quarterly Rating</th>
+        <th rowspan="2" style="border:1px solid #000; padding:6px; width:10%; background:#efefef;">FINAL RATING</th>
+        <th rowspan="2" style="border:1px solid #000; padding:6px; width:15%; background:#efefef;">REMARKS</th>
+    </tr>
+
+    <tr>
+        <th style="border:1px solid #000; padding:6px; width:5%; background:#efefef;">1</th>
+        <th style="border:1px solid #000; padding:6px; width:5%; background:#efefef;">2</th>
+        <th style="border:1px solid #000; padding:6px; width:5%; background:#efefef;">3</th>
+        <th style="border:1px solid #000; padding:6px; width:5%; background:#efefef;">4</th>
+    </tr>
+
+    <!-- SUBJECT ROWS -->
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Filipino</td>
+        <td style="border:1px solid #000;">{{fil_q1}}</td>
+        <td style="border:1px solid #000;">{{fil_q2}}</td>
+        <td style="border:1px solid #000;">{{fil_q3}}</td>
+        <td style="border:1px solid #000;">{{fil_q4}}</td>
+        <td style="border:1px solid #000;">{{fil_final}}</td>
+        <td style="border:1px solid #000;">{{fil_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">English</td>
+        <td style="border:1px solid #000;">{{eng_q1}}</td>
+        <td style="border:1px solid #000;">{{eng_q2}}</td>
+        <td style="border:1px solid #000;">{{eng_q3}}</td>
+        <td style="border:1px solid #000;">{{eng_q4}}</td>
+        <td style="border:1px solid #000;">{{eng_final}}</td>
+        <td style="border:1px solid #000;">{{eng_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Mathematics</td>
+        <td style="border:1px solid #000;">{{math_q1}}</td>
+        <td style="border:1px solid #000;">{{math_q2}}</td>
+        <td style="border:1px solid #000;">{{math_q3}}</td>
+        <td style="border:1px solid #000;">{{math_q4}}</td>
+        <td style="border:1px solid #000;">{{math_final}}</td>
+        <td style="border:1px solid #000;">{{math_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Science</td>
+        <td style="border:1px solid #000;">{{science_q1}}</td>
+        <td style="border:1px solid #000;">{{science_q2}}</td>
+        <td style="border:1px solid #000;">{{science_q3}}</td>
+        <td style="border:1px solid #000;">{{science_q4}}</td>
+        <td style="border:1px solid #000;">{{science_final}}</td>
+        <td style="border:1px solid #000;">{{science_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Araling Panlipunan (AP)</td>
+        <td style="border:1px solid #000;">{{ap_q1}}</td>
+        <td style="border:1px solid #000;">{{ap_q2}}</td>
+        <td style="border:1px solid #000;">{{ap_q3}}</td>
+        <td style="border:1px solid #000;">{{ap_q4}}</td>
+        <td style="border:1px solid #000;">{{ap_final}}</td>
+        <td style="border:1px solid #000;">{{ap_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Edukasyon sa Pagpapakatao (EsP)</td>
+        <td style="border:1px solid #000;">{{esp_q1}}</td>
+        <td style="border:1px solid #000;">{{esp_q2}}</td>
+        <td style="border:1px solid #000;">{{esp_q3}}</td>
+        <td style="border:1px solid #000;">{{esp_q4}}</td>
+        <td style="border:1px solid #000;">{{esp_final}}</td>
+        <td style="border:1px solid #000;">{{esp_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">Technology and Livelihood Education (TLE)</td>
+        <td style="border:1px solid #000;">{{tle_q1}}</td>
+        <td style="border:1px solid #000;">{{tle_q2}}</td>
+        <td style="border:1px solid #000;">{{tle_q3}}</td>
+        <td style="border:1px solid #000;">{{tle_q4}}</td>
+        <td style="border:1px solid #000;">{{tle_final}}</td>
+        <td style="border:1px solid #000;">{{tle_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px;">MAPEH</td>
+        <td style="border:1px solid #000;">{{mapeh_q1}}</td>
+        <td style="border:1px solid #000;">{{mapeh_q2}}</td>
+        <td style="border:1px solid #000;">{{mapeh_q3}}</td>
+        <td style="border:1px solid #000;">{{mapeh_q4}}</td>
+        <td style="border:1px solid #000;">{{mapeh_final}}</td>
+        <td style="border:1px solid #000;">{{mapeh_remarks}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px 0 6px 20px;">Music</td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px 0 6px 20px;">Arts</td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px 0 6px 20px;">Physical Education</td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; padding:6px 0 6px 20px;">Health</td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+        <td style="border:1px solid #000;"></td>
+    </tr>
+
+    <!-- EXTRA EMPTY ROWS -->
+    <tr><td style="border:1px solid #000; height:22px;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td></tr>
+    <tr><td style="border:1px solid #000; height:22px;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td><td style="border:1px solid #000;"></td></tr>
+
+    <tr>
+        <td colspan="5" style="border:1px solid #000; padding:6px; text-align:right; font-weight:bold; font-style:italic;">
+            General Average
+        </td>
+        <td style="border:1px solid #000; padding:6px;">{{overall_average}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{overall_remarks}}</td>
+    </tr>
+</table>
+
+<!-- REMEDIAL CLASSES -->
+<table style="width:100%; border-collapse:collapse; margin-top:0;">
+    <tr>
+        <td style="border:1px solid #000; padding:6px; width:20%; text-align:center; font-weight:bold;">
+            Remedial Classes
+        </td>
+
+        <td colspan="4" style="border:1px solid #000; padding:6px; font-weight:bold;">
+            Conducted from (mm/dd/yyyy) {{remedial_from}} to (mm/dd/yyyy) {{remedial_to}}
+        </td>
+    </tr>
+
+    <tr>
+        <th style="border:1px solid #000; padding:6px; background:#efefef;">Learning Areas</th>
+        <th style="border:1px solid #000; padding:6px; background:#efefef;">Final Rating</th>
+        <th style="border:1px solid #000; padding:6px; background:#efefef;">Remedial Class Mark</th>
+        <th style="border:1px solid #000; padding:6px; background:#efefef;">Recomputed Final Grade</th>
+        <th style="border:1px solid #000; padding:6px; background:#efefef;">Remarks</th>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; height:35px; padding:6px;">{{remedial_subject_1}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_final_rating_1}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_mark_1}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{recomputed_grade_1}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_remarks_1}}</td>
+    </tr>
+
+    <tr>
+        <td style="border:1px solid #000; height:35px; padding:6px;">{{remedial_subject_2}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_final_rating_2}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_mark_2}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{recomputed_grade_2}}</td>
+        <td style="border:1px solid #000; padding:6px;">{{remedial_remarks_2}}</td>
+    </tr>
+</table>
 
 <script>
-    function parseStudentName(fullName) {
-        const parts = fullName.trim().split(/\s+/);
-        if (parts.length === 1) return { firstName: parts[0], lastName: '', middleName: '' };
-        if (parts.length === 2) return { firstName: parts[0], lastName: parts[1], middleName: '' };
-        const lastName = parts.pop();
-        const firstName = parts.shift();
-        const middleName = parts.join(' ');
-        return { firstName, lastName, middleName };
-    }
+(function() {
+    const stored = localStorage.getItem('selectedStudent');
+    if (!stored) return;
 
-    function loadStudentData() {
-        const stored = localStorage.getItem('selectedStudent');
-        if (!stored) return;
-        try {
-            const student = JSON.parse(stored);
-            const { firstName, lastName, middleName } = parseStudentName(student.name);
+    try {
+        const student = JSON.parse(stored);
 
-            document.getElementById('last-name').value = lastName;
-            document.getElementById('first-name').value = firstName;
-            document.getElementById('middle-name').value = middleName;
-
-            const termGrade = student.termGrade;
-            const targetRow = document.querySelector('#ap-row');
-            const q1Cell = targetRow ? targetRow.querySelector('td:nth-child(2)') : null;
-            const finalCell = targetRow ? targetRow.querySelector('td:nth-child(6)') : null;
-            const remarksCell = targetRow ? targetRow.querySelector('td:nth-child(7)') : null;
-            if (q1Cell) q1Cell.textContent = termGrade;
-            if (finalCell) finalCell.textContent = termGrade;
-            if (remarksCell) remarksCell.textContent = termGrade >= 75 ? 'Passed' : 'Failed';
-
-            document.getElementById('sch-school-year').value = '2026-2027';
-        } catch (e) {
-            console.error('Error loading student data:', e);
+        const nameParts = (student.name || '').trim().split(/\s+/);
+        let lastName = '', firstName = '', middleName = '';
+        if (nameParts.length === 1) {
+            firstName = nameParts[0];
+        } else if (nameParts.length === 2) {
+            firstName = nameParts[0];
+            lastName = nameParts[1];
+        } else if (nameParts.length >= 3) {
+            firstName = nameParts[0];
+            lastName = nameParts[nameParts.length - 1];
+            middleName = nameParts.slice(1, -1).join(' ');
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', loadStudentData);
+        const subjectPrefix = {
+            'Filipino': 'fil', 'English': 'eng', 'Math': 'math',
+            'Mathematics': 'math', 'Science': 'science',
+            'Araling Panlipunan': 'ap', 'Edukasyon sa Pagpapakatao': 'esp',
+            'Technology and Livelihood Education': 'tle', 'MAPEH': 'mapeh'
+        };
+
+        const replacements = {
+            'last_name': lastName, 'first_name': firstName,
+            'middle_name': middleName, 'school_year': '2026-2027'
+        };
+
+        let totalGrade = 0, subjectCount = 0;
+
+        if (student.subjects) {
+            for (const [subjName, subjData] of Object.entries(student.subjects)) {
+                const prefix = subjectPrefix[subjName];
+                if (prefix && subjData.termGrade) {
+                    replacements[prefix + '_final'] = subjData.termGrade;
+                    replacements[prefix + '_remarks'] = subjData.descriptor || (subjData.termGrade >= 75 ? 'Passed' : 'Failed');
+                    totalGrade += subjData.termGrade;
+                    subjectCount++;
+                }
+            }
+        }
+
+        if (subjectCount > 0) {
+            const avg = (totalGrade / subjectCount).toFixed(2);
+            replacements['overall_average'] = avg;
+            replacements['overall_remarks'] = parseFloat(avg) >= 75 ? 'Passed' : 'Failed';
+        }
+
+        const body = document.body;
+        const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
+        while (walker.nextNode()) {
+            const node = walker.currentNode;
+            let text = node.textContent;
+            let modified = false;
+
+            for (const [key, value] of Object.entries(replacements)) {
+                const regex = new RegExp('\\{\\{\\s*' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*\\}\\}', 'g');
+                if (regex.test(text)) {
+                    text = text.replace(regex, String(value ?? ''));
+                    modified = true;
+                }
+            }
+
+            if (modified) {
+                node.textContent = text;
+            }
+        }
+    } catch (e) {
+        console.error('Error loading student data:', e);
+    }
+})();
 </script>
+
 </body>
 </html>

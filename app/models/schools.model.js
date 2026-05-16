@@ -1,0 +1,27 @@
+module.exports = (sequelize, Sequelize) => {
+    const Schools = sequelize.define('schools', {
+        school_name: {
+            type: Sequelize.STRING,
+        },
+        school_code: {
+            type: Sequelize.STRING,
+        },
+        district: {
+            type: Sequelize.STRING,
+        },
+        division: {
+            type: Sequelize.STRING,
+        },
+        region: {
+            type: Sequelize.STRING,
+        },
+        address: {
+            type: Sequelize.STRING,
+        },
+        school_type: {
+            type: Sequelize.STRING,
+        },
+    });
+
+    return Schools;
+};
