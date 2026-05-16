@@ -3,23 +3,56 @@ module.exports = (sequelize, Sequelize) => {
         learner_school_record_id: {
             type: Sequelize.INTEGER,
         },
+        teacher_id: {
+            type: Sequelize.INTEGER,
+        },
         learning_area_id: {
             type: Sequelize.INTEGER,
         },
-        q1: {
+        writtenScores: {
+            type: Sequelize.JSON,
+        },
+        writtenTotal: {
             type: Sequelize.DECIMAL(5, 2),
         },
-        q2: {
+        writtenPS: {
             type: Sequelize.DECIMAL(5, 2),
         },
-        q3: {
+        writtenWS: {
             type: Sequelize.DECIMAL(5, 2),
         },
-        q4: {
+        performanceScores: {
+            type: Sequelize.JSON,
+        },
+        performanceTotal: {
             type: Sequelize.DECIMAL(5, 2),
         },
-        final_rating: {
+        performancePS: {
             type: Sequelize.DECIMAL(5, 2),
+        },
+        performanceWS: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        examScores: {
+            type: Sequelize.JSON,
+        },
+        examTotal: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        examPS: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        examWS: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        initialGrade: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        termGrade: {
+            type: Sequelize.DECIMAL(5, 2),
+        },
+        descriptor: {
+            type: Sequelize.STRING,
         },
         remarks: {
             type: Sequelize.STRING,

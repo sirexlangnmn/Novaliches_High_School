@@ -47,6 +47,7 @@ function fetchClassRecords(code) {
     })
         .then(function (res) { return res.json(); })
         .then(function (data) {
+            console.log('class-record.js fetchClassRecords data:', data);
             if (loadingEl) loadingEl.style.display = 'none';
             if (data.message) {
                 console.error('API error:', data.message);

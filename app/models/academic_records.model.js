@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         learner_id: {
             type: Sequelize.INTEGER,
         },
+        school_id: {
+            type: Sequelize.INTEGER,
+        },
         status: {
             type: Sequelize.TINYINT,
             defaultValue: 1,

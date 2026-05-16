@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/fonts/flaticon.css">
     <!-- Animate CSS -->
     <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/animate.min.css">
-    <!-- Select 2 CSS -->
-    <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/select2.min.css">
     <!-- Data Table CSS -->
     <link rel="stylesheet" href="<%= process.env.NOVA_HOSTNAME %>assets/css/jquery.dataTables.min.css">
     <!-- Custom CSS -->
@@ -580,7 +578,12 @@
 
                                     <td style="border:1px solid #000; font-weight:bold; text-align:center;">
                                         SUBJECT:
-                                        <span id="subject-display" style="font-weight:normal;">—</span>
+                                        <select id="subject-select" style="font-size:16px; font-weight:normal; padding:4px 8px; margin-left:6px; border:1px solid #999; border-radius:4px;">
+                                            <option value="Araling Panlipunan">Araling Panlipunan</option>
+                                            <option value="English">English</option>
+                                            <option value="Math">Math</option>
+                                            <option value="Science">Science</option>
+                                        </select>
                                     </td>
 
                                 </tr>
@@ -591,7 +594,6 @@
                                     style="padding:8px 20px; font-size:14px; font-weight:bold; cursor:pointer; background:#007bff; color:#fff; border:none; border-radius:4px;">
                                     Save Grades
                                 </button>
-                                <span id="loading-indicator" style="display:none; margin-left:12px; font-weight:bold;">Loading...</span>
                             </div>
                             <div class="class-record-container">
                                 <!-- MAIN TABLE -->
@@ -605,7 +607,8 @@
                                             LEARNERS' NAMES
                                         </th>
 
-                                        <th colspan="4" style="
+                                        <!-- version 2 -->
+                                        <th colspan="8" style="
                     border:1px solid #000;
                     font-size:22px;
                     font-weight:bold;
@@ -613,37 +616,169 @@
                     white-space:nowrap;
                     background:#efefef;
                     padding:32px;
+                    width:500px;
                 ">
-                                            QUARTERLY RATINGS
+
+                                            WRITTEN / ORAL WORKS (20%)
+
+                                        </th>
+
+
+                                        <th colspan="6" style="
+                    border:1px solid #000;
+                    font-size:22px;
+                    font-weight:bold;
+                    text-align:center;
+                    white-space:nowrap;
+                    background:#efefef;
+                    padding:32px;
+                    width:420px;
+                ">
+
+                                            PRODUCT / PERFORMANCE TASKS (50%)
+
+                                        </th>
+
+
+                                        <th colspan="6" style="
+                    border:1px solid #000;
+                    font-size:22px;
+                    font-weight:bold;
+                    text-align:center;
+                    white-space:nowrap;
+                    background:#efefef;
+                    padding:32px;
+                    width:500px;
+                ">
+
+                                            SUMMATIVE TESTS AND TERM EXAMINATIONS (30%)
+
+                                        </th>
+                                        <!-- version 2 -->
+
+                                        <th rowspan="2"
+                                            style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef;">
+                                            Initial Grade
                                         </th>
 
                                         <th rowspan="2"
-                                            style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef; width:120px;">
-                                            FINAL RATING
+                                            style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef;">
+                                            TERM GRADE
                                         </th>
 
                                         <th rowspan="2"
                                             style="border:1px solid #000; font-size:22px; font-weight:bold; background:#efefef; min-width:140px;">
-                                            REMARKS
+                                            DESCRIPTOR
                                         </th>
 
                                     </tr>
 
                                     <!-- SUB HEADERS -->
                                     <tr style="background:#f1f1f1; font-weight:bold;">
-                                        <td style="border:1px solid #000; width:100px;">Q1</td>
-                                        <td style="border:1px solid #000; width:100px;">Q2</td>
-                                        <td style="border:1px solid #000; width:100px;">Q3</td>
-                                        <td style="border:1px solid #000; width:100px;">Q4</td>
+
+                                        <!-- WRITTEN -->
+                                        <td style="border:1px solid #000; width:55px;">1</td>
+                                        <td style="border:1px solid #000; width:55px;">2</td>
+                                        <td style="border:1px solid #000; width:55px;">3</td>
+                                        <td style="border:1px solid #000; width:55px;">4</td>
+                                        <td style="border:1px solid #000; width:55px;">5</td>
+                                        <td style="border:1px solid #000; width:70px;">Total</td>
+                                        <td style="border:1px solid #000; width:70px;">PS</td>
+                                        <td style="border:1px solid #000; width:70px;">WS</td>
+
+
+                                        <!-- PRODUCT / PERFORMANCE TASKS -->
+                                        <th style="border:1px solid #000; width:55px;">1</th>
+                                        <th style="border:1px solid #000; width:55px;">2</th>
+                                        <th style="border:1px solid #000; width:55px;">3</th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            Total
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            PS
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            WS
+                                        </th>
+
+
+                                        <!-- SUMMATIVE TESTS -->
+                                        <th style="border:1px solid #000; width:55px;">
+                                            ST1
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:55px;">
+                                            ST2
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:55px;">
+                                            TE
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            Total
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            PS
+                                        </th>
+
+                                        <th style="border:1px solid #000; width:70px;">
+                                            WS
+                                        </th>
+
                                     </tr>
 
-                                    <!-- STUDENTS HEADER -->
+                                    <!-- HIGHEST POSSIBLE SCORE -->
+                                    <tr>
+
+                                        <td
+                                            style="border:1px solid #000; font-weight:bold; text-align:left; padding-left:10px;">
+                                            HIGHEST POSSIBLE SCORE
+                                        </td>
+
+                                        <!-- WRITTEN -->
+                                        <td style="border:1px solid #000;">10</td>
+                                        <td style="border:1px solid #000;">10</td>
+                                        <td style="border:1px solid #000;">10</td>
+                                        <td style="border:1px solid #000;">10</td>
+                                        <td style="border:1px solid #000;">10</td>
+                                        <td style="border:1px solid #000;">50</td>
+                                        <td style="border:1px solid #000;">100.00</td>
+                                        <td style="border:1px solid #000;">20%</td>
+
+                                        <!-- PERFORMANCE -->
+                                        <td style="border:1px solid #000;">25</td>
+                                        <td style="border:1px solid #000;">25</td>
+                                        <td style="border:1px solid #000;">25</td>
+                                        <td style="border:1px solid #000;">75</td>
+                                        <td style="border:1px solid #000;">100.00</td>
+                                        <td style="border:1px solid #000;">50%</td>
+
+                                        <!-- EXAM -->
+                                        <td style="border:1px solid #000;">40</td>
+                                        <td style="border:1px solid #000;">40</td>
+                                        <td style="border:1px solid #000;">50</td>
+                                        <td style="border:1px solid #000;">130</td>
+                                        <td style="border:1px solid #000;">100.00</td>
+                                        <td style="border:1px solid #000;">30%</td>
+
+                                        <td style="border:1px solid #000;"></td>
+                                        <td style="border:1px solid #000;"></td>
+                                        <td style="border:1px solid #000;"></td>
+
+                                    </tr>
+
+                                    <!-- MALE -->
                                     <tr>
                                         <td
                                             style="border:1px solid #000; background:#f7f7f7; font-weight:bold; text-align:left; padding-left:10px;">
                                             STUDENTS
                                         </td>
-                                        <td colspan="6" style="border:1px solid #000;"></td>
+                                        <td colspan="24" style="border:1px solid #000;"></td>
                                     </tr>
 
                                     <!-- Dynamic Student Rows -->
@@ -654,17 +789,17 @@
                                     <!-- EMPTY ROWS -->
                                     <tr>
                                         <td style="border:1px solid #000;">&nbsp;</td>
-                                        <td colspan="6" style="border:1px solid #000;"></td>
+                                        <td colspan="24" style="border:1px solid #000;"></td>
                                     </tr>
 
                                     <tr>
                                         <td style="border:1px solid #000;">&nbsp;</td>
-                                        <td colspan="6" style="border:1px solid #000;"></td>
+                                        <td colspan="24" style="border:1px solid #000;"></td>
                                     </tr>
 
                                     <tr>
                                         <td style="border:1px solid #000;">&nbsp;</td>
-                                        <td colspan="6" style="border:1px solid #000;"></td>
+                                        <td colspan="24" style="border:1px solid #000;"></td>
                                     </tr>
 
                                 </table>
@@ -689,19 +824,380 @@
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/popper.min.js"></script>
         <!-- Bootstrap js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/bootstrap.min.js"></script>
-        <!-- Select 2 Js -->
-        <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/select2.min.js"></script>
         <!-- Scroll Up Js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/jquery.scrollUp.min.js"></script>
         <!-- Data Table Js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/jquery.dataTables.min.js"></script>
         <!-- Custom Js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/main.js"></script>
-        <!-- Custom Js -->
+
         <!-- Dynamic Data Loader via class-record.js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/class-record.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', initClassRecord);
+        </script>
+
+        <!-- Dynamic Data Loader -->
+        <script>
+            let currentSubject = 'Araling Panlipunan';
+            let studentsData = { students: [] };
+
+            function createStudentRow(student, index) {
+                const row = document.createElement('tr');
+                const sid = student.id;
+                const subj = student.subjects ? student.subjects[currentSubject] : student;
+
+                const nameCell = document.createElement('td');
+                nameCell.className = 'student-name';
+                nameCell.style.border = '1px solid #000';
+                nameCell.style.textAlign = 'left';
+                nameCell.style.paddingLeft = '10px';
+                nameCell.style.cursor = 'pointer';
+                nameCell.title = 'Click to view Form-137';
+                nameCell.textContent = `${index + 1}. ${student.name}`;
+                nameCell.addEventListener('click', () => {
+                    const studentData = collectStudentData(sid);
+                    studentData.subject = currentSubject;
+                    localStorage.setItem('selectedStudent', JSON.stringify(studentData));
+                    window.location.href = '/form-137-ui';
+                });
+                row.appendChild(nameCell);
+
+                const writtenFields = ['written-1','written-2','written-3','written-4','written-5'];
+                (subj.writtenScores || []).forEach((score, i) => {
+                    const cell = document.createElement('td');
+                    cell.className = 'input-cell';
+                    cell.style.border = '1px solid #000';
+                    cell.style.padding = '0';
+                    cell.style.width = '45px';
+                    cell.style.height = '35px';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.inputMode = 'numeric';
+                    input.maxLength = '3';
+                    input.value = score || '';
+                    input.style.width = '45px';
+                    input.style.height = '35px';
+                    input.style.border = 'none';
+                    input.style.textAlign = 'center';
+                    input.style.fontSize = '16px';
+                    input.style.outline = 'none';
+                    input.style.background = 'transparent';
+                    input.style.padding = '0';
+                    input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = writtenFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
+
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                });
+
+                const writtenMeta = ['written-total','written-ps','written-ws'];
+                [subj.writtenTotal, subj.writtenPS, subj.writtenWS].forEach((value, i) => {
+                    const cell = document.createElement('td');
+                    cell.style.border = '1px solid #000';
+                    cell.textContent = value || '';
+                    cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = writtenMeta[i];
+                    row.appendChild(cell);
+                });
+
+                const perfFields = ['perf-1','perf-2','perf-3'];
+                (subj.performanceScores || []).forEach((score, i) => {
+                    const cell = document.createElement('td');
+                    cell.className = 'input-cell';
+                    cell.style.border = '1px solid #000';
+                    cell.style.padding = '0';
+                    cell.style.width = '45px';
+                    cell.style.height = '35px';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.inputMode = 'numeric';
+                    input.maxLength = '3';
+                    input.value = score || '';
+                    input.style.width = '45px';
+                    input.style.height = '35px';
+                    input.style.border = 'none';
+                    input.style.textAlign = 'center';
+                    input.style.fontSize = '16px';
+                    input.style.outline = 'none';
+                    input.style.background = 'transparent';
+                    input.style.padding = '0';
+                    input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = perfFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
+
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                });
+
+                const perfMeta = ['perf-total','perf-ps','perf-ws'];
+                [subj.performanceTotal, subj.performancePS, subj.performanceWS].forEach((value, i) => {
+                    const cell = document.createElement('td');
+                    cell.style.border = '1px solid #000';
+                    cell.textContent = value || '';
+                    cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = perfMeta[i];
+                    row.appendChild(cell);
+                });
+
+                const examFields = ['exam-st1','exam-st2','exam-te'];
+                (subj.examScores || []).forEach((score, i) => {
+                    const cell = document.createElement('td');
+                    cell.className = 'input-cell';
+                    cell.style.border = '1px solid #000';
+                    cell.style.padding = '0';
+                    cell.style.width = '45px';
+                    cell.style.height = '35px';
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.inputMode = 'numeric';
+                    input.maxLength = '3';
+                    input.value = score || '';
+                    input.style.width = '45px';
+                    input.style.height = '35px';
+                    input.style.border = 'none';
+                    input.style.textAlign = 'center';
+                    input.style.fontSize = '16px';
+                    input.style.outline = 'none';
+                    input.style.background = 'transparent';
+                    input.style.padding = '0';
+                    input.style.margin = '0';
+                    input.dataset.studentId = sid;
+                    input.dataset.field = examFields[i];
+                    input.addEventListener('input', () => recomputeStudent(sid));
+
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                });
+
+                const examMeta = ['exam-total','exam-ps','exam-ws'];
+                [subj.examTotal, subj.examPS, subj.examWS].forEach((value, i) => {
+                    const cell = document.createElement('td');
+                    cell.style.border = '1px solid #000';
+                    cell.textContent = value || '';
+                    cell.style.fontSize = '16px';
+                    cell.dataset.studentId = sid;
+                    cell.dataset.field = examMeta[i];
+                    row.appendChild(cell);
+                });
+
+                const initialCell = document.createElement('td');
+                initialCell.style.border = '1px solid #000';
+                initialCell.textContent = subj.initialGrade || '';
+                initialCell.style.fontSize = '16px';
+                initialCell.dataset.studentId = sid;
+                initialCell.dataset.field = 'initial-grade';
+                row.appendChild(initialCell);
+
+                const termCell = document.createElement('td');
+                termCell.style.border = '1px solid #000';
+                termCell.style.fontWeight = 'bold';
+                termCell.style.fontSize = '16px';
+                if (subj.termGrade < 75) {
+                    termCell.style.color = 'red';
+                }
+                termCell.textContent = subj.termGrade || '';
+                termCell.dataset.studentId = sid;
+                termCell.dataset.field = 'term-grade';
+                row.appendChild(termCell);
+
+                const descCell = document.createElement('td');
+                descCell.style.border = '1px solid #000';
+                descCell.style.fontWeight = 'bold';
+                descCell.style.fontSize = '16px';
+                if (subj.termGrade < 75) {
+                    descCell.style.color = 'red';
+                }
+                descCell.textContent = subj.descriptor || '';
+                descCell.dataset.studentId = sid;
+                descCell.dataset.field = 'descriptor';
+                row.appendChild(descCell);
+
+                return row;
+            }
+
+            function recomputeStudent(studentId) {
+                const getVal = (field) => {
+                    const el = document.querySelector(`input[data-student-id="${studentId}"][data-field="${field}"]`);
+                    const v = el ? parseFloat(el.value) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+                const setCell = (field, value) => {
+                    const cell = document.querySelector(`td[data-student-id="${studentId}"][data-field="${field}"]`);
+                    if (cell) {
+                        const num = parseFloat(value);
+                        cell.textContent = isNaN(num) ? '' : (Number.isInteger(num) ? num : num.toFixed(2));
+                    }
+                };
+
+                const wTotal = getVal('written-1')+getVal('written-2')+getVal('written-3')+getVal('written-4')+getVal('written-5');
+                const wPS = (wTotal / 50) * 100;
+                const wWS = wPS * 0.20;
+                setCell('written-total', wTotal);
+                setCell('written-ps', wPS);
+                setCell('written-ws', wWS);
+
+                const pTotal = getVal('perf-1')+getVal('perf-2')+getVal('perf-3');
+                const pPS = (pTotal / 75) * 100;
+                const pWS = pPS * 0.50;
+                setCell('perf-total', pTotal);
+                setCell('perf-ps', pPS);
+                setCell('perf-ws', pWS);
+
+                const eTotal = getVal('exam-st1')+getVal('exam-st2')+getVal('exam-te');
+                const ePS = (eTotal / 130) * 100;
+                const eWS = ePS * 0.30;
+                setCell('exam-total', eTotal);
+                setCell('exam-ps', ePS);
+                setCell('exam-ws', eWS);
+
+                const initialGrade = wWS + pWS + eWS;
+                setCell('initial-grade', initialGrade);
+
+                const termGrade = Math.round(initialGrade);
+                const termCell = document.querySelector(`td[data-student-id="${studentId}"][data-field="term-grade"]`);
+                if (termCell) {
+                    termCell.textContent = termGrade;
+                    termCell.style.color = termGrade < 75 ? 'red' : '';
+                }
+
+                let descriptor = 'Beginning';
+                if (termGrade >= 90) descriptor = 'Advanced';
+                else if (termGrade >= 85) descriptor = 'Proficient';
+                else if (termGrade >= 80) descriptor = 'Approaching Proficiency';
+                else if (termGrade >= 75) descriptor = 'Developing';
+
+                const descCell = document.querySelector(`td[data-student-id="${studentId}"][data-field="descriptor"]`);
+                if (descCell) {
+                    descCell.textContent = descriptor;
+                    descCell.style.color = termGrade < 75 ? 'red' : '';
+                }
+                console.log('Updated student:', JSON.stringify(collectStudentData(studentId), null, 2));
+            }
+
+            function collectStudentData(studentId) {
+                const row = document.querySelector(`#student-rows tr input[data-student-id="${studentId}"]`)?.closest('tr');
+                if (!row) return null;
+                const nameCell = row.querySelector('td.student-name');
+                const name = nameCell ? nameCell.textContent.replace(/^\d+\.\s*/, '').trim() : '';
+
+                const getInput = (field) => {
+                    const el = row.querySelector(`input[data-field="${field}"]`);
+                    const v = el ? parseFloat(el.value) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+                const getCell = (field) => {
+                    const el = row.querySelector(`td[data-field="${field}"]`);
+                    const v = el ? parseFloat(el.textContent) : 0;
+                    return isNaN(v) ? 0 : v;
+                };
+
+                return {
+                    id: studentId,
+                    name,
+                    subject: currentSubject,
+                    writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
+                    writtenTotal: getCell('written-total'),
+                    writtenPS: getCell('written-ps'),
+                    writtenWS: getCell('written-ws'),
+                    performanceScores: [getInput('perf-1'), getInput('perf-2'), getInput('perf-3')],
+                    performanceTotal: getCell('perf-total'),
+                    performancePS: getCell('perf-ps'),
+                    performanceWS: getCell('perf-ws'),
+                    examScores: [getInput('exam-st1'), getInput('exam-st2'), getInput('exam-te')],
+                    examTotal: getCell('exam-total'),
+                    examPS: getCell('exam-ps'),
+                    examWS: getCell('exam-ws'),
+                    initialGrade: getCell('initial-grade'),
+                    termGrade: getCell('term-grade'),
+                    descriptor: (row.querySelector('td[data-field="descriptor"]') || {}).textContent || ''
+                };
+            }
+
+            function switchSubject(subject) {
+                currentSubject = subject;
+                const firstStudent = studentsData.students[0];
+                if (firstStudent && firstStudent.subjects && firstStudent.subjects[subject]) {
+                    document.getElementById('teacher-name').textContent = firstStudent.subjects[subject].teacher;
+                }
+                populateTable();
+            }
+
+            fetch('<%= process.env.NOVA_HOSTNAME %>assets/data/students.json')
+                .then(response => response.json())
+                .then(data => {
+                    studentsData = data;
+                    document.getElementById('teacher-name').textContent = data.students[0].subjects[currentSubject].teacher;
+                    populateTable();
+                })
+                .catch(error => console.error('Error loading data:', error));
+
+            document.getElementById('subject-select').addEventListener('change', function() {
+                switchSubject(this.value);
+            });
+
+            function populateTable() {
+                const tbody = document.getElementById('student-rows');
+                tbody.innerHTML = '';
+                studentsData.students.forEach((student, index) => {
+                    const row = createStudentRow(student, index);
+                    tbody.appendChild(row);
+                });
+            }
+
+            function collectAllData() {
+                const rows = document.querySelectorAll('#student-rows tr');
+                const data = [];
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('td.student-name');
+                    if (!nameCell) return;
+                    const name = nameCell.textContent.replace(/^\d+\.\s*/, '').trim();
+                    const firstInput = row.querySelector('input');
+                    if (!firstInput) return;
+                    const studentId = parseInt(firstInput.dataset.studentId);
+
+                    const getInput = (field) => {
+                        const el = row.querySelector(`input[data-field="${field}"]`);
+                        const v = el ? parseFloat(el.value) : 0;
+                        return isNaN(v) ? 0 : v;
+                    };
+                    const getCell = (field) => {
+                        const el = row.querySelector(`td[data-field="${field}"]`);
+                        const v = el ? parseFloat(el.textContent) : 0;
+                        return isNaN(v) ? 0 : v;
+                    };
+
+                    data.push({
+                        id: studentId,
+                        name,
+                        subject: currentSubject,
+                        writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
+                        writtenTotal: getCell('written-total'),
+                        writtenPS: getCell('written-ps'),
+                        writtenWS: getCell('written-ws'),
+                        performanceScores: [getInput('perf-1'), getInput('perf-2'), getInput('perf-3')],
+                        performanceTotal: getCell('perf-total'),
+                        performancePS: getCell('perf-ps'),
+                        performanceWS: getCell('perf-ws'),
+                        examScores: [getInput('exam-st1'), getInput('exam-st2'), getInput('exam-te')],
+                        examTotal: getCell('exam-total'),
+                        examPS: getCell('exam-ps'),
+                        examWS: getCell('exam-ws'),
+                        initialGrade: getCell('initial-grade'),
+                        termGrade: getCell('term-grade'),
+                        descriptor: (row.querySelector('td[data-field="descriptor"]') || {}).textContent || ''
+                    });
+                });
+                return data;
+            }
         </script>
 
 </body>
