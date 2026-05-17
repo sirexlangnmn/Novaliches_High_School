@@ -497,86 +497,73 @@
 
                             <!-- HEADER -->
                             <table class="header-table" style="width:100%; border-collapse:collapse;">
+
+                                <!-- ROW 1 -->
                                 <tr>
 
                                     <!-- LEFT LOGO -->
-                                    <td rowspan="3" style="border:1px solid #000; width:120px; text-align:center;">
+                                    <td rowspan="2" style="width:120px; text-align:center; border:1px solid #000;">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Department_of_Education.svg"
                                             style="width:80px;">
                                     </td>
 
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:right; padding-right:10px;">
-                                        REGION
+                                    <!-- COLUMN 1 -->
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <div style="font-weight:bold;">DIVISION</div>
+                                        <div id="division-name">Sample Division</div>
                                     </td>
 
-                                    <td style=""></td>
-
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:right; padding-right:10px;">
-                                        DIVISION
+                                    <!-- COLUMN 2 -->
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <div style="font-weight:bold;">REGION</div>
+                                        <div id="region-name">Sample Region</div>
                                     </td>
-
-                                    <td style="border:1px solid #000;"></td>
 
                                     <!-- RIGHT LOGO -->
-                                    <td rowspan="3" style="border:1px solid #000; width:120px; text-align:center;">
+                                    <td rowspan="2" style="width:120px; text-align:center; border:1px solid #000;">
                                         <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Department_of_Education.svg"
                                             style="width:80px;">
                                     </td>
 
                                 </tr>
 
+                                <!-- ROW 2 -->
                                 <tr>
 
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:right; padding-right:10px;">
-                                        SCHOOL NAME
+                                    <!-- COLUMN 3 -->
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <div style="font-weight:bold;">SCHOOL ID</div>
+                                        <div id="school-id">000000</div>
                                     </td>
 
-                                    <td colspan="3" style="border:1px solid #000;"></td>
+                                    <!-- COLUMN 4 -->
+                                    <td style="border:1px solid #000; padding:5px;">
+                                        <div style="font-weight:bold;">SCHOOL NAME</div>
+                                        <div id="school-name">Sample School Name</div>
+                                    </td>
 
                                 </tr>
 
-                                <tr>
-
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:right; padding-right:10px;">
-                                        SCHOOL ID
-                                    </td>
-
-                                    <td style="border:1px solid #000;"></td>
-
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:right; padding-right:10px;">
-                                        SCHOOL YEAR
-                                    </td>
-
-                                    <td style="border:1px solid #000; text-align:center;">
-                                        2026-2027
-                                    </td>
-
-                                </tr>
                             </table>
 
                             <!-- SUBJECT HEADER -->
-                            <table class="header-table" style="width:100%; border-collapse:collapse;">
+                                <table class="header-table" style="width:100%; border-collapse:collapse;">
                                 <tr>
+                                    <td style="border:1px solid #000; font-weight:bold; padding-left:10px;">
+                                        SCHOOL YEAR: <span id="school-year" style="font-weight:normal;"></span>
+                                    </td>
 
-                                    <td
-                                        style="border:1px solid #000; font-weight:bold; text-align:center; padding:10px;">
-                                        TERM 1
+                                    <td id="quarter-display" style="border:1px solid #000; font-weight:bold; padding-left:10px;">
+                                        TERM 1: <span style="font-weight:normal;"></span>
                                     </td>
 
                                     <td style="border:1px solid #000; font-weight:bold; padding-left:10px;">
-                                        GRADE & SECTION:
+                                        GRADE & SECTION: <span id="grade-section" style="font-weight:normal;"></span>
                                     </td>
 
                                     <td id="teacher-display" style="border:1px solid #000; font-weight:bold; padding-left:10px;">
-                                        TEACHER: <span id="teacher-name" style="font-weight:normal;">Mrs. Santos</span>
+                                        TEACHER: <span id="teacher-name" style="font-weight:normal;"></span>
                                     </td>
-
-
 
                                 </tr>
                             </table>
@@ -1341,6 +1328,13 @@
                 .then(response => response.json())
                 .then(data => {
                     studentsData = { students: data.students };
+
+                    document.getElementById('school-name').textContent = data.school || '';
+                    document.getElementById('division-name').textContent = data.division || '';
+                    document.getElementById('school-year').textContent = data.schoolYear || '';
+                    document.getElementById('quarter-display').textContent = data.quarter || '';
+                    document.getElementById('grade-section').textContent = data.gradeLevel && data.section ? `${data.gradeLevel} - ${data.section}` : '';
+
                     const firstStudent = data.students[0];
                     if (firstStudent && firstStudent.subjects && firstStudent.subjects[name]) {
                         document.getElementById('teacher-name').textContent = firstStudent.subjects[name].teacher;
