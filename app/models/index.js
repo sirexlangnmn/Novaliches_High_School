@@ -30,10 +30,10 @@ db.learners.hasOne(db.learner_jhs_eligibility, { foreignKey: 'learner_id' });
 db.learner_jhs_eligibility.belongsTo(db.learners, { foreignKey: 'learner_id' });
 
 db.academic_records.belongsTo(db.learners, { foreignKey: 'learner_id' });
-db.academic_records.hasMany(db.learner_school_records, { foreignKey: 'academic_record_id' });
+// db.academic_records.hasMany(db.learner_school_records, { foreignKey: 'academic_record_id' });
 db.academic_records.belongsTo(db.schools, { foreignKey: 'school_id' });
 
-db.learner_school_records.belongsTo(db.academic_records, { foreignKey: 'academic_record_id' });
+// db.learner_school_records.belongsTo(db.academic_records, { foreignKey: 'academic_record_id' });
 db.learner_school_records.belongsTo(db.school_years, { foreignKey: 'school_year_id' });
 db.learner_school_records.belongsTo(db.grade_levels, { foreignKey: 'grade_level_id' });
 db.learner_school_records.hasMany(db.learner_grades, { foreignKey: 'learner_school_record_id' });

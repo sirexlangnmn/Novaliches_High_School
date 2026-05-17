@@ -576,15 +576,7 @@
                                         TEACHER: <span id="teacher-name" style="font-weight:normal;">Mrs. Santos</span>
                                     </td>
 
-                                    <td style="border:1px solid #000; font-weight:bold; text-align:center;">
-                                        SUBJECT:
-                                        <select id="subject-select" style="font-size:16px; font-weight:normal; padding:4px 8px; margin-left:6px; border:1px solid #999; border-radius:4px;">
-                                            <option value="Araling Panlipunan">Araling Panlipunan</option>
-                                            <option value="English">English</option>
-                                            <option value="Math">Math</option>
-                                            <option value="Science">Science</option>
-                                        </select>
-                                    </td>
+
 
                                 </tr>
                             </table>
@@ -831,21 +823,15 @@
         <!-- Custom Js -->
         <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/main.js"></script>
 
-        <!-- Dynamic Data Loader via class-record.js -->
-        <script src="<%= process.env.NOVA_HOSTNAME %>assets/js/class-record.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', initClassRecord);
-        </script>
-
         <!-- Dynamic Data Loader -->
         <script>
-            let currentSubject = 'Araling Panlipunan';
+            let currentSubjectName = '';
             let studentsData = { students: [] };
 
             function createStudentRow(student, index) {
                 const row = document.createElement('tr');
                 const sid = student.id;
-                const subj = student.subjects ? student.subjects[currentSubject] : student;
+                const subj = student.subjects ? student.subjects[currentSubjectName] : student;
 
                 const nameCell = document.createElement('td');
                 nameCell.className = 'student-name';
@@ -857,7 +843,7 @@
                 nameCell.textContent = `${index + 1}. ${student.name}`;
                 nameCell.addEventListener('click', () => {
                     const studentData = collectStudentData(sid);
-                    studentData.subject = currentSubject;
+                    studentData.subject = currentSubjectName;
                     localStorage.setItem('selectedStudent', JSON.stringify(studentData));
                     window.location.href = '/form-137-ui';
                 });
@@ -1122,27 +1108,52 @@
                 };
             }
 
-            function switchSubject(subject) {
-                currentSubject = subject;
-                const firstStudent = studentsData.students[0];
-                if (firstStudent && firstStudent.subjects && firstStudent.subjects[subject]) {
-                    document.getElementById('teacher-name').textContent = firstStudent.subjects[subject].teacher;
-                }
-                populateTable();
+            function loadLearningAreas() {
+                fetch('/api/get/learning-areas/all', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(areas => {
+                        const select = document.getElementById('learning-areas');
+                        select.innerHTML = '<option value="">Select Learning Area</option>';
+                        areas.forEach(area => {
+                            const opt = document.createElement('option');
+                            opt.value = area.code;
+                            opt.textContent = area.name;
+                            select.appendChild(opt);
+                        });
+                    })
+                    .catch(err => console.error('Error loading learning areas:', err));
             }
 
-            fetch('<%= process.env.NOVA_HOSTNAME %>assets/data/students.json')
+            function fetchClassRecords(code, name) {
+                currentSubjectName = name;
+                fetch('/api/get/class-records/by-learning-area', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ learningAreaCode: code }),
+                })
                 .then(response => response.json())
                 .then(data => {
-                    studentsData = data;
-                    document.getElementById('teacher-name').textContent = data.students[0].subjects[currentSubject].teacher;
+                    studentsData = { students: data.students };
+                    const firstStudent = data.students[0];
+                    if (firstStudent && firstStudent.subjects && firstStudent.subjects[name]) {
+                        document.getElementById('teacher-name').textContent = firstStudent.subjects[name].teacher;
+                    }
                     populateTable();
                 })
                 .catch(error => console.error('Error loading data:', error));
+            }
 
-            document.getElementById('subject-select').addEventListener('change', function() {
-                switchSubject(this.value);
+            document.getElementById('learning-areas').addEventListener('change', function() {
+                const opt = this.options[this.selectedIndex];
+                if (opt && opt.value) {
+                    fetchClassRecords(opt.value, opt.textContent);
+                } else {
+                    document.getElementById('student-rows').innerHTML = '';
+                    document.getElementById('teacher-name').textContent = '';
+                }
             });
+
+            loadLearningAreas();
 
             function populateTable() {
                 const tbody = document.getElementById('student-rows');

@@ -6,10 +6,13 @@ const Op = db.Sequelize.Op;
 
 
 exports.getByLearningArea = async (req, res) => {
-    const SCHOOL_YEAR = '2025-2026';
-    const GRADE_LEVEL = 1;
-    const QUARTER = 1;
-    const TEACHER_ID = 1;
+
+    const SCHOOL_ID = 1;
+    const SCHOOL_YEAR_ID = 1;
+    const GRADE_LEVEL_ID = 1;
+    const SECTION_ID = 1;
+
+    const QUARTER_ID = 1;
 
     try {
         const { learningAreaCode } = req.body;
@@ -27,41 +30,74 @@ exports.getByLearningArea = async (req, res) => {
             return res.status(404).send({ message: 'Learning area not found' });
         }
 
-        const schoolYear = await db.school_years.findOne({
-            where: { year: SCHOOL_YEAR, status: 1 },
+
+        const learnerSchoolRecords = await db.learner_school_records.findAll({
+            where: {
+                school_id: SCHOOL_ID,
+                school_year_id: SCHOOL_YEAR_ID,
+                grade_level_id: GRADE_LEVEL_ID,
+                section_id: SECTION_ID,
+                status: 1,
+            },
         });
 
-        const lsrWhere = { status: 1 };
-        if (schoolYear) {
-            lsrWhere.school_year_id = schoolYear.id;
+        console.log('class_records.controller getByLearningArea learnerSchoolRecords:', learnerSchoolRecords)
+
+        const students = [];
+
+        for (const record of learnerSchoolRecords) {
+            const learner = await db.learners.findByPk(record.learner_id);
+            if (!learner) continue;
+
+            const grade = await db.learner_grades.findOne({
+                where: {
+                    learner_school_record_id: record.id,
+                    learning_area_id: learningArea.id,
+                    status: 1,
+                },
+                include: [{ model: db.teachers }],
+            });
+
+            const name = [learner.first_name, learner.middle_name, learner.last_name].filter(Boolean).join(' ');
+
+            const subjects = {};
+            if (grade) {
+                const parseJSON = (val) => {
+                    if (Array.isArray(val)) return val;
+                    if (typeof val === 'string') {
+                        try { return JSON.parse(val); } catch (e) { return []; }
+                    }
+                    return [];
+                };
+                subjects[learningArea.name] = {
+                    teacher: grade.teacher ? `${grade.teacher.first_name} ${grade.teacher.last_name}` : null,
+                    writtenScores: parseJSON(grade.writtenScores),
+                    writtenTotal: Number(grade.writtenTotal),
+                    writtenPS: Number(grade.writtenPS),
+                    writtenWS: Number(grade.writtenWS),
+                    performanceScores: parseJSON(grade.performanceScores),
+                    performanceTotal: Number(grade.performanceTotal),
+                    performancePS: Number(grade.performancePS),
+                    performanceWS: Number(grade.performanceWS),
+                    examScores: parseJSON(grade.examScores),
+                    examTotal: Number(grade.examTotal),
+                    examPS: Number(grade.examPS),
+                    examWS: Number(grade.examWS),
+                    initialGrade: Number(grade.initialGrade),
+                    termGrade: Number(grade.termGrade),
+                    descriptor: grade.descriptor,
+                };
+            }
+
+            students.push({
+                id: record.learner_id,
+                name,
+                subjects,
+            });
         }
 
-        console.log('class_records.controller getByLearningArea lsrWhere:', lsrWhere)
-
-        const learnerSchoolRecord = await db.learner_school_records.findOne({
-            where: { school_year_id: schoolYear.id, quarter: QUARTER, grade_level_id: GRADE_LEVEL, status: 1 },
-        });
-
-        console.log('class_records.controller getByLearningArea learnerSchoolRecord:', learnerSchoolRecord)
-        console.log('class_records.controller getByLearningArea learnerSchoolRecord.id:', learnerSchoolRecord.id)
-
-
-        const learnerGrades = await db.learner_grades.findAll({
-            where: { teacher_id: TEACHER_ID, learning_area_id: learningArea.id, status: 1 },
-        });
-
-        console.log('class_records.controller getByLearningArea learnerGrades:', learnerGrades)
-
-
-        const teachers = await db.teachers.findOne({
-            where: { id: TEACHER_ID, status: 1 },
-        });
-
-        console.log('class_records.controller getByLearningArea learnerGrades:', learnerGrades)
-        console.log('class_records.controller getByLearningArea learningArea.name:', learningArea.name)
-        console.log('class_records.controller getByLearningArea teachers.first_name:', teachers.first_name)
-
-        
+        console.log('class_records.controller getByLearningArea learningArea:', { id: learningArea.id, name: learningArea.name, code: learningArea.code })
+        console.log('class_records.controller getByLearningArea students:', students)
 
         res.send({
             learningArea: { id: learningArea.id, name: learningArea.name, code: learningArea.code },
@@ -73,85 +109,3 @@ exports.getByLearningArea = async (req, res) => {
 };
 
 
-
-
-
-// exports.getByLearningArea = async (req, res) => {
-//     try {
-//         const { learningAreaCode } = req.body;
-//         console.log('class_records.controller getByLearningArea called with:', learningAreaCode)
-
-//         if (!learningAreaCode) {
-//             return res.status(400).send({ message: 'Learning area code is required' });
-//         }
-
-//         const learningArea = await db.learning_areas.findOne({
-//             where: { code: learningAreaCode, status: 1 },
-//         });
-
-//         if (!learningArea) {
-//             return res.status(404).send({ message: 'Learning area not found' });
-//         }
-
-//         const schoolYear = await db.school_years.findOne({
-//             where: { year: '2025-2026', status: 1 },
-//         });
-
-//         const lsrWhere = { status: 1 };
-//         if (schoolYear) {
-//             lsrWhere.school_year_id = schoolYear.id;
-//         }
-
-//         const records = await db.learner_grades.findAll({
-//             where: { learning_area_id: learningArea.id, status: 1 },
-//             include: [
-//                 {
-//                     model: db.learner_school_records,
-//                     where: lsrWhere,
-//                     include: [
-//                         {
-//                             model: db.academic_records,
-//                             include: [
-//                                 { model: db.learners },
-//                             ],
-//                         },
-//                         { model: db.grade_levels },
-//                         { model: db.teachers },
-//                     ],
-//                 },
-//             ],
-//         });
-
-//         const students = records.map((grade) => {
-//             const record = grade.learner_school_record;
-//             const academic = record ? record.academic_record : null;
-//             const learner = academic ? academic.learner : null;
-
-//             return {
-//                 id: learner ? learner.id : null,
-//                 name: learner
-//                     ? `${learner.last_name}, ${learner.first_name} ${learner.middle_name || ''}`.trim()
-//                     : 'Unknown',
-//                 lrn: learner ? learner.lrn : null,
-//                 gradeLevel: record && record.grade_level ? record.grade_level.name : null,
-//                 section: record ? record.section : null,
-//                 teacher: record && record.teacher
-//                     ? `${record.teacher.first_name} ${record.teacher.last_name}`
-//                     : null,
-//                 q1: grade.q1,
-//                 q2: grade.q2,
-//                 q3: grade.q3,
-//                 q4: grade.q4,
-//                 finalRating: grade.final_rating,
-//                 remarks: grade.remarks,
-//             };
-//         });
-
-//         res.send({
-//             learningArea: { id: learningArea.id, name: learningArea.name, code: learningArea.code },
-//             students,
-//         });
-//     } catch (error) {
-//         res.status(500).send({ message: error.message });
-//     }
-// };

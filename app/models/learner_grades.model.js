@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         learner_school_record_id: {
             type: Sequelize.INTEGER,
         },
+        quarter_id: {
+            type: Sequelize.TINYINT,
+        },
         teacher_id: {
             type: Sequelize.INTEGER,
         },

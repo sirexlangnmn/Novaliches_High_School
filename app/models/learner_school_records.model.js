@@ -1,19 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
     const LearnerSchoolRecords = sequelize.define('learner_school_records', {
-        academic_record_id: {
+        school_id: {
             type: Sequelize.INTEGER,
         },
         school_year_id: {
             type: Sequelize.INTEGER,
         },
-        quarter: {
-            type: Sequelize.TINYINT,
-        },
-        grade_level_id: {
+        learner_id: {
             type: Sequelize.INTEGER,
         },
-        section: {
-            type: Sequelize.STRING,
+        grade_level_id: {
+            type: Sequelize.TINYINT,
+        },
+        section_id: {
+            type: Sequelize.TINYINT,
         },
         status: {
             type: Sequelize.TINYINT,
