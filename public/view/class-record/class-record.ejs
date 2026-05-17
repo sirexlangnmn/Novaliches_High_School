@@ -831,7 +831,7 @@
             function createStudentRow(student, index) {
                 const row = document.createElement('tr');
                 const sid = student.id;
-                const subj = student.subjects ? student.subjects[currentSubjectName] : student;
+                const subj = student.subjects ? (student.subjects[currentSubjectName] || {}) : student;
 
                 const nameCell = document.createElement('td');
                 nameCell.className = 'student-name';
@@ -850,7 +850,8 @@
                 row.appendChild(nameCell);
 
                 const writtenFields = ['written-1','written-2','written-3','written-4','written-5'];
-                (subj.writtenScores || []).forEach((score, i) => {
+                const writtenScores = subj.writtenScores || [];
+                for (let i = 0; i < 5; i++) {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -862,7 +863,7 @@
                     input.type = 'text';
                     input.inputMode = 'numeric';
                     input.maxLength = '3';
-                    input.value = score || '';
+                    input.value = writtenScores[i] || '';
                     input.style.width = '45px';
                     input.style.height = '35px';
                     input.style.border = 'none';
@@ -878,7 +879,7 @@
 
                     cell.appendChild(input);
                     row.appendChild(cell);
-                });
+                }
 
                 const writtenMeta = ['written-total','written-ps','written-ws'];
                 [subj.writtenTotal, subj.writtenPS, subj.writtenWS].forEach((value, i) => {
@@ -892,7 +893,8 @@
                 });
 
                 const perfFields = ['perf-1','perf-2','perf-3'];
-                (subj.performanceScores || []).forEach((score, i) => {
+                const perfScores = subj.performanceScores || [];
+                for (let i = 0; i < 3; i++) {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -904,7 +906,7 @@
                     input.type = 'text';
                     input.inputMode = 'numeric';
                     input.maxLength = '3';
-                    input.value = score || '';
+                    input.value = perfScores[i] || '';
                     input.style.width = '45px';
                     input.style.height = '35px';
                     input.style.border = 'none';
@@ -920,7 +922,7 @@
 
                     cell.appendChild(input);
                     row.appendChild(cell);
-                });
+                }
 
                 const perfMeta = ['perf-total','perf-ps','perf-ws'];
                 [subj.performanceTotal, subj.performancePS, subj.performanceWS].forEach((value, i) => {
@@ -934,7 +936,8 @@
                 });
 
                 const examFields = ['exam-st1','exam-st2','exam-te'];
-                (subj.examScores || []).forEach((score, i) => {
+                const examScores = subj.examScores || [];
+                for (let i = 0; i < 3; i++) {
                     const cell = document.createElement('td');
                     cell.className = 'input-cell';
                     cell.style.border = '1px solid #000';
@@ -946,7 +949,7 @@
                     input.type = 'text';
                     input.inputMode = 'numeric';
                     input.maxLength = '3';
-                    input.value = score || '';
+                    input.value = examScores[i] || '';
                     input.style.width = '45px';
                     input.style.height = '35px';
                     input.style.border = 'none';
@@ -962,7 +965,7 @@
 
                     cell.appendChild(input);
                     row.appendChild(cell);
-                });
+                }
 
                 const examMeta = ['exam-total','exam-ps','exam-ws'];
                 [subj.examTotal, subj.examPS, subj.examWS].forEach((value, i) => {
@@ -1089,7 +1092,7 @@
                 return {
                     id: studentId,
                     name,
-                    subject: currentSubject,
+                    subject: currentSubjectName,
                     writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
                     writtenTotal: getCell('written-total'),
                     writtenPS: getCell('written-ps'),
@@ -1189,7 +1192,7 @@
                     data.push({
                         id: studentId,
                         name,
-                        subject: currentSubject,
+                    subject: currentSubjectName,
                         writtenScores: [getInput('written-1'), getInput('written-2'), getInput('written-3'), getInput('written-4'), getInput('written-5')],
                         writtenTotal: getCell('written-total'),
                         writtenPS: getCell('written-ps'),

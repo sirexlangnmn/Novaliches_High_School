@@ -69,6 +69,21 @@ exports.getByLearningArea = async (req, res) => {
                     }
                     return [];
                 };
+
+
+                let descriptor = null;
+                if (grade.termGrade >= 90 && grade.termGrade <= 100) {
+                    descriptor = 'Advance';
+                } else if (grade.termGrade >= 85 && grade.termGrade <= 89) {
+                    descriptor = 'Proficient';
+                } else if (grade.termGrade >= 80 && grade.termGrade <= 84) {
+                    descriptor = 'Approaching Proficiency';
+                } else if (grade.termGrade >= 75 && grade.termGrade <= 79) {
+                    descriptor = 'Developing';
+                } else if (grade.termGrade >= 66 && grade.termGrade <= 74) {
+                    descriptor = 'Beginning';
+                }
+
                 subjects[learningArea.name] = {
                     teacher: grade.teacher ? `${grade.teacher.first_name} ${grade.teacher.last_name}` : null,
                     writtenScores: parseJSON(grade.writtenScores),
@@ -85,7 +100,7 @@ exports.getByLearningArea = async (req, res) => {
                     examWS: Number(grade.examWS),
                     initialGrade: Number(grade.initialGrade),
                     termGrade: Number(grade.termGrade),
-                    descriptor: grade.descriptor,
+                    descriptor
                 };
             }
 
