@@ -827,6 +827,42 @@
         <script>
             let currentSubjectName = '';
             let studentsData = { students: [] };
+            const gradeFieldCategory = {
+                'written-1': 'writtenScores', 'written-2': 'writtenScores', 'written-3': 'writtenScores',
+                'written-4': 'writtenScores', 'written-5': 'writtenScores',
+                'perf-1': 'performanceScores', 'perf-2': 'performanceScores', 'perf-3': 'performanceScores',
+                'exam-st1': 'examScores', 'exam-st2': 'examScores', 'exam-te': 'examScores'
+            };
+            const gradeCategoryFields = {
+                'writtenScores': ['written-1','written-2','written-3','written-4','written-5'],
+                'performanceScores': ['perf-1','perf-2','perf-3'],
+                'examScores': ['exam-st1','exam-st2','exam-te']
+            };
+            const highestPossibleScores = {
+                'written-1': 10, 'written-2': 10, 'written-3': 10, 'written-4': 10, 'written-5': 10,
+                'perf-1': 25, 'perf-2': 25, 'perf-3': 25,
+                'exam-st1': 40, 'exam-st2': 40, 'exam-te': 50
+            };
+            function validateGradeInput(inputEl) {
+                const field = inputEl.dataset.field;
+                const max = highestPossibleScores[field];
+                if (max === undefined) return true;
+
+                inputEl.value = inputEl.value.replace(/\D/g, '');
+
+                const val = inputEl.value;
+                if (val === '') return true;
+
+                const num = parseInt(val, 10);
+                if (isNaN(num) || num < 0 || num > max) {
+                    console.log(`Invalid input for ${field}: "${val}". Must be between 0 and ${max}.`);
+                    inputEl.value = inputEl.dataset.lastValidValue || '';
+                    return false;
+                }
+
+                inputEl.dataset.lastValidValue = val;
+                return true;
+            }
 
             function createStudentRow(student, index) {
                 const row = document.createElement('tr');
@@ -840,6 +876,7 @@
                 nameCell.style.paddingLeft = '10px';
                 nameCell.style.cursor = 'pointer';
                 nameCell.title = 'Click to view Form-137';
+                nameCell.id = `student-name-${sid}`;
                 nameCell.textContent = `${index + 1}. ${student.name}`;
                 nameCell.addEventListener('click', () => {
                     const studentData = collectStudentData(sid);
@@ -873,9 +910,41 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.id = `input-${sid}-${writtenFields[i]}`;
                     input.dataset.studentId = sid;
                     input.dataset.field = writtenFields[i];
-                    input.addEventListener('input', () => recomputeStudent(sid));
+                    input.addEventListener('focus', function() {
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        if (cat && gradeCategoryFields[cat]) {
+                            this.dataset.originalValues = JSON.stringify(gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            }));
+                        }
+                    });
+                    input.addEventListener('input', function() {
+                        if (validateGradeInput(this)) {
+                            recomputeStudent(sid);
+                        }
+                    });
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim() === '') {
+                            this.value = '0';
+                        }
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        const stored = this.dataset.originalValues;
+                        if (cat && stored) {
+                            const oldVals = JSON.parse(stored);
+                            const newVals = gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            });
+                            if (JSON.stringify(oldVals) !== JSON.stringify(newVals)) {
+                                recomputeStudent(sid);
+                                onGradeChange(sid, this);
+                            }
+                        }
+                    });
 
                     cell.appendChild(input);
                     row.appendChild(cell);
@@ -884,6 +953,7 @@
                 const writtenMeta = ['written-total','written-ps','written-ws'];
                 [subj.writtenTotal, subj.writtenPS, subj.writtenWS].forEach((value, i) => {
                     const cell = document.createElement('td');
+                    cell.id = `cell-${sid}-${writtenMeta[i]}`;
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
@@ -916,9 +986,41 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.id = `input-${sid}-${perfFields[i]}`;
                     input.dataset.studentId = sid;
                     input.dataset.field = perfFields[i];
-                    input.addEventListener('input', () => recomputeStudent(sid));
+                    input.addEventListener('focus', function() {
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        if (cat && gradeCategoryFields[cat]) {
+                            this.dataset.originalValues = JSON.stringify(gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            }));
+                        }
+                    });
+                    input.addEventListener('input', function() {
+                        if (validateGradeInput(this)) {
+                            recomputeStudent(sid);
+                        }
+                    });
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim() === '') {
+                            this.value = '0';
+                        }
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        const stored = this.dataset.originalValues;
+                        if (cat && stored) {
+                            const oldVals = JSON.parse(stored);
+                            const newVals = gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            });
+                            if (JSON.stringify(oldVals) !== JSON.stringify(newVals)) {
+                                recomputeStudent(sid);
+                                onGradeChange(sid, this);
+                            }
+                        }
+                    });
 
                     cell.appendChild(input);
                     row.appendChild(cell);
@@ -927,6 +1029,7 @@
                 const perfMeta = ['perf-total','perf-ps','perf-ws'];
                 [subj.performanceTotal, subj.performancePS, subj.performanceWS].forEach((value, i) => {
                     const cell = document.createElement('td');
+                    cell.id = `cell-${sid}-${perfMeta[i]}`;
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
@@ -959,9 +1062,41 @@
                     input.style.background = 'transparent';
                     input.style.padding = '0';
                     input.style.margin = '0';
+                    input.id = `input-${sid}-${examFields[i]}`;
                     input.dataset.studentId = sid;
                     input.dataset.field = examFields[i];
-                    input.addEventListener('input', () => recomputeStudent(sid));
+                    input.addEventListener('focus', function() {
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        if (cat && gradeCategoryFields[cat]) {
+                            this.dataset.originalValues = JSON.stringify(gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            }));
+                        }
+                    });
+                    input.addEventListener('input', function() {
+                        if (validateGradeInput(this)) {
+                            recomputeStudent(sid);
+                        }
+                    });
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim() === '') {
+                            this.value = '0';
+                        }
+                        const cat = gradeFieldCategory[this.dataset.field];
+                        const stored = this.dataset.originalValues;
+                        if (cat && stored) {
+                            const oldVals = JSON.parse(stored);
+                            const newVals = gradeCategoryFields[cat].map(f => {
+                                const el = document.querySelector(`input[data-student-id="${sid}"][data-field="${f}"]`);
+                                return el ? parseFloat(el.value) || 0 : 0;
+                            });
+                            if (JSON.stringify(oldVals) !== JSON.stringify(newVals)) {
+                                recomputeStudent(sid);
+                                onGradeChange(sid, this);
+                            }
+                        }
+                    });
 
                     cell.appendChild(input);
                     row.appendChild(cell);
@@ -970,6 +1105,7 @@
                 const examMeta = ['exam-total','exam-ps','exam-ws'];
                 [subj.examTotal, subj.examPS, subj.examWS].forEach((value, i) => {
                     const cell = document.createElement('td');
+                    cell.id = `cell-${sid}-${examMeta[i]}`;
                     cell.style.border = '1px solid #000';
                     cell.textContent = value || '';
                     cell.style.fontSize = '16px';
@@ -979,6 +1115,7 @@
                 });
 
                 const initialCell = document.createElement('td');
+                initialCell.id = `cell-${sid}-initial-grade`;
                 initialCell.style.border = '1px solid #000';
                 initialCell.textContent = subj.initialGrade || '';
                 initialCell.style.fontSize = '16px';
@@ -987,6 +1124,7 @@
                 row.appendChild(initialCell);
 
                 const termCell = document.createElement('td');
+                termCell.id = `cell-${sid}-term-grade`;
                 termCell.style.border = '1px solid #000';
                 termCell.style.fontWeight = 'bold';
                 termCell.style.fontSize = '16px';
@@ -999,6 +1137,7 @@
                 row.appendChild(termCell);
 
                 const descCell = document.createElement('td');
+                descCell.id = `cell-${sid}-descriptor`;
                 descCell.style.border = '1px solid #000';
                 descCell.style.fontWeight = 'bold';
                 descCell.style.fontSize = '16px';
@@ -1069,7 +1208,59 @@
                     descCell.textContent = descriptor;
                     descCell.style.color = termGrade < 75 ? 'red' : '';
                 }
-                console.log('Updated student:', JSON.stringify(collectStudentData(studentId), null, 2));
+            }
+
+            function onGradeChange(studentId, inputEl) {
+                const field = inputEl.dataset.field;
+                const category = gradeFieldCategory[field] || field;
+                let originalValues, updatedValues;
+
+                if (gradeCategoryFields[category]) {
+                    originalValues = JSON.parse(inputEl.dataset.originalValues || '[]');
+                    updatedValues = gradeCategoryFields[category].map(f => {
+                        const el = document.querySelector(`input[data-student-id="${studentId}"][data-field="${f}"]`);
+                        return el ? parseFloat(el.value) || 0 : 0;
+                    });
+                } else {
+                    originalValues = inputEl.dataset.originalValue || '';
+                    updatedValues = inputEl.value;
+                }
+
+                const changeRecord = {
+                    student_id: studentId,
+                    field: category,
+                    original_value: originalValues,
+                    updated_value: updatedValues
+                };
+                console.log('Grade Change Record:', JSON.stringify(changeRecord, null, 2));
+
+                const studentData = collectStudentData(studentId);
+                const teacherName = document.getElementById('teacher-name').textContent;
+                const fullRecord = {
+                    id: studentId,
+                    name: studentData.name,
+                    subjects: {
+                        [currentSubjectName]: {
+                            teacher: teacherName,
+                            writtenScores: studentData.writtenScores,
+                            writtenTotal: studentData.writtenTotal,
+                            writtenPS: studentData.writtenPS,
+                            writtenWS: studentData.writtenWS,
+                            performanceScores: studentData.performanceScores,
+                            performanceTotal: studentData.performanceTotal,
+                            performancePS: studentData.performancePS,
+                            performanceWS: studentData.performanceWS,
+                            examScores: studentData.examScores,
+                            examTotal: studentData.examTotal,
+                            examPS: studentData.examPS,
+                            examWS: studentData.examWS,
+                            initialGrade: studentData.initialGrade,
+                            termGrade: studentData.termGrade,
+                            descriptor: studentData.descriptor
+                        }
+                    }
+                };
+                console.log('Updated Student Record:', JSON.stringify(fullRecord, null, 2));
             }
 
             function collectStudentData(studentId) {
