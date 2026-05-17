@@ -1261,6 +1261,19 @@
                     }
                 };
                 console.log('Updated Student Record:', JSON.stringify(fullRecord, null, 2));
+
+                sendGradeChangeData(changeRecord, fullRecord);
+            }
+
+            function sendGradeChangeData(gradeChangeRecord, updatedStudentRecord) {
+                fetch('/api/save/class-record/grade-change', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ gradeChangeRecord, updatedStudentRecord }),
+                })
+                .then(res => res.json())
+                .then(data => console.log('Grade change saved:', data))
+                .catch(err => console.error('Error saving grade change:', err));
             }
 
             function collectStudentData(studentId) {

@@ -21,5 +21,6 @@ module.exports = (app) => {
 
     app.post(['/api/get/learning-areas/all'], learningAreas.all);
     app.post(['/api/get/class-records/by-learning-area'], classRecord.getByLearningArea);
+    app.post(['/api/save/class-record/grade-change'], classRecord.saveGradeChange);
 
 };

@@ -123,4 +123,15 @@ exports.getByLearningArea = async (req, res) => {
     }
 };
 
+exports.saveGradeChange = async (req, res) => {
+    try {
+        const { gradeChangeRecord, updatedStudentRecord } = req.body;
+        console.log('=== Grade Change Record ===', JSON.stringify(gradeChangeRecord, null, 2));
+        console.log('=== Updated Student Record ===', JSON.stringify(updatedStudentRecord, null, 2));
+        res.send({ message: 'Grade change data received', gradeChangeRecord, updatedStudentRecord });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
+
 
