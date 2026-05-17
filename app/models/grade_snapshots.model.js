@@ -1,35 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
     const GradeSnapshots = sequelize.define('grade_snapshots', {
-        learner_id: {
+        learner_school_record_id: {
             type: Sequelize.INTEGER,
         },
-        learner_id: {
-            type: Sequelize.INTEGER,
-        },
-        learner_id: {
-            type: Sequelize.INTEGER,
-        },
-        learner_id: {
-            type: Sequelize.INTEGER,
-        },
-        learner_id: {
-            type: Sequelize.INTEGER,
-        },
-        learner_id: {
-            type: Sequelize.INTEGER,
-        },
-
-
-
-
-
-
-
-
-
-
         quarter_id: {
-            type: Sequelize.TINYINT,
+            type: Sequelize.INTEGER,
         },
         teacher_id: {
             type: Sequelize.INTEGER,
@@ -37,53 +12,14 @@ module.exports = (sequelize, Sequelize) => {
         learning_area_id: {
             type: Sequelize.INTEGER,
         },
-        writtenScores: {
-            type: Sequelize.JSON,
-        },
-        writtenTotal: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        writtenPS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        writtenWS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        performanceScores: {
-            type: Sequelize.JSON,
-        },
-        performanceTotal: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        performancePS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        performanceWS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        examScores: {
-            type: Sequelize.JSON,
-        },
-        examTotal: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        examPS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        examWS: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        initialGrade: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        termGrade: {
-            type: Sequelize.DECIMAL(5, 2),
-        },
-        descriptor: {
+        field: {
             type: Sequelize.STRING,
         },
-        remarks: {
-            type: Sequelize.STRING,
+        previous_value: {
+            type: Sequelize.JSON,
+        },
+        updated_value: {
+            type: Sequelize.JSON,
         },
         status: {
             type: Sequelize.TINYINT,

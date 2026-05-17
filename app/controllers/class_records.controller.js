@@ -185,14 +185,15 @@ exports.getByLearningArea = async (req, res) => {
 
 exports.saveGradeChange = async (req, res) => {
     try {
-        const { gradeChangeRecord, updatedStudentRecord } = req.body;
+        const { gradeChangeRecord, updatedStudentRecord, referenceData } = req.body;
         console.log('=== Grade Change Record ===', JSON.stringify(gradeChangeRecord, null, 2));
         console.log('=== Updated Student Record ===', JSON.stringify(updatedStudentRecord, null, 2));
+        console.log('=== Reference Data ===', JSON.stringify(referenceData, null, 2));
 
         // === Grade Change Record === {
         //   "student_id": 1,
         //   "field": "writtenScores",
-        //   "original_value": [
+        //   "previous_value": [
         //     10,
         //     10,
         //     10,
@@ -206,6 +207,12 @@ exports.saveGradeChange = async (req, res) => {
         //     10,
         //     10
         //   ]
+        // }
+        // === Reference Data === {
+        //   "learner_school_record_id": 1,
+        //   "quarter": "TERM 1: First Quarter",
+        //   "teacher": "Maria Santos",
+        //   "learning_area": "Filipino"
         // }
         // === Updated Student Record === {
         //   "id": 1,
@@ -247,7 +254,7 @@ exports.saveGradeChange = async (req, res) => {
         // }
 
 
-        res.send({ message: 'Grade change data received', gradeChangeRecord, updatedStudentRecord });
+        res.send({ message: 'Grade change data received', gradeChangeRecord, updatedStudentRecord, referenceData });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

@@ -22,6 +22,7 @@ db.learner_school_records = require('./learner_school_records.model.js')(sequeli
 db.learner_grades = require('./learner_grades.model.js')(sequelize, Sequelize);
 db.academic_records = require('./academic_records.model.js')(sequelize, Sequelize);
 db.remedial_classes = require('./remedial_classes.model.js')(sequelize, Sequelize);
+db.grade_snapshots = require('./grade_snapshots.model.js')(sequelize, Sequelize);
 
 // Associations
 db.learners.hasOne(db.learner_jhs_eligibility, { foreignKey: 'learner_id' });

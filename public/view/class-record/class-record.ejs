@@ -1213,16 +1213,29 @@
                     updatedValues = inputEl.value;
                 }
 
+                const studentData = collectStudentData(studentId);
+
+                const studentFromData = studentsData.students.find(s => s.id === studentId);
+                const subjectData = studentFromData?.subjects?.[currentSubjectName] || {};
+                const teacherName = document.getElementById('teacher-name').textContent;
+                const quarterText = document.getElementById('quarter-display').textContent.trim();
+
                 const changeRecord = {
                     student_id: studentId,
                     field: category,
-                    original_value: originalValues,
+                    previous_value: originalValues,
                     updated_value: updatedValues
                 };
-                console.log('Grade Change Record:', JSON.stringify(changeRecord, null, 2));
 
-                const studentData = collectStudentData(studentId);
-                const teacherName = document.getElementById('teacher-name').textContent;
+                const referenceData = {
+                    learner_school_record_id: subjectData.learner_school_record_id || null,
+                    quarter: quarterText,
+                    teacher: teacherName,
+                    learning_area: currentSubjectName
+                };
+
+                console.log('Grade Change Record:', JSON.stringify(changeRecord, null, 2));
+                console.log('Reference Data:', JSON.stringify(referenceData, null, 2));
                 const fullRecord = {
                     id: studentId,
                     name: studentData.name,
@@ -1249,14 +1262,14 @@
                 };
                 console.log('Updated Student Record:', JSON.stringify(fullRecord, null, 2));
 
-                sendGradeChangeData(changeRecord, fullRecord);
+                sendGradeChangeData(changeRecord, fullRecord, referenceData);
             }
 
-            function sendGradeChangeData(gradeChangeRecord, updatedStudentRecord) {
+            function sendGradeChangeData(gradeChangeRecord, updatedStudentRecord, referenceData) {
                 fetch('/api/save/class-record/grade-change', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ gradeChangeRecord, updatedStudentRecord }),
+                    body: JSON.stringify({ gradeChangeRecord, updatedStudentRecord, referenceData }),
                 })
                 .then(res => res.json())
                 .then(data => console.log('Grade change saved:', data))
