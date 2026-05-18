@@ -186,75 +186,80 @@ exports.getByLearningArea = async (req, res) => {
 exports.saveGradeChange = async (req, res) => {
     try {
         const { gradeChangeRecord, updatedStudentRecord, referenceData } = req.body;
-        console.log('=== Grade Change Record ===', JSON.stringify(gradeChangeRecord, null, 2));
-        console.log('=== Updated Student Record ===', JSON.stringify(updatedStudentRecord, null, 2));
-        console.log('=== Reference Data ===', JSON.stringify(referenceData, null, 2));
 
-        // === Grade Change Record === {
-        //   "student_id": 1,
-        //   "field": "writtenScores",
-        //   "previous_value": [
-        //     10,
-        //     10,
-        //     10,
-        //     10,
-        //     9
-        //   ],
-        //   "updated_value": [
-        //     10,
-        //     10,
-        //     10,
-        //     10,
-        //     10
-        //   ]
-        // }
-        // === Reference Data === {
-        //   "learner_school_record_id": 1,
-        //   "quarter": "TERM 1: First Quarter",
-        //   "teacher": "Maria Santos",
-        //   "learning_area": "Filipino"
-        // }
-        // === Updated Student Record === {
-        //   "id": 1,
-        //   "name": "Federex Abarera Potolin",
-        //   "subjects": {
-        //     "Filipino": {
-        //       "teacher": "Maria Santos",
-        //       "writtenScores": [
-        //         10,
-        //         10,
-        //         10,
-        //         10,
-        //         10
-        //       ],
-        //       "writtenTotal": 50,
-        //       "writtenPS": 100,
-        //       "writtenWS": 20,
-        //       "performanceScores": [
-        //         21,
-        //         20,
-        //         22
-        //       ],
-        //       "performanceTotal": 63,
-        //       "performancePS": 84,
-        //       "performanceWS": 42,
-        //       "examScores": [
-        //         30,
-        //         33,
-        //         37
-        //       ],
-        //       "examTotal": 100,
-        //       "examPS": 76.92,
-        //       "examWS": 23.08,
-        //       "initialGrade": 85.08,
-        //       "termGrade": 85,
-        //       "descriptor": "Proficient"
-        //     }
-        //   }
-        // }
+        const teacher = await db.teachers.findOne({
+            where: db.Sequelize.where(
+                db.Sequelize.fn('CONCAT',
+                    db.Sequelize.col('first_name'), ' ',
+                    db.Sequelize.col('last_name')
+                ),
+                referenceData.teacher
+            )
+        });
 
+        const learningArea = await db.learning_areas.findOne({
+            where: { name: referenceData.learning_area }
+        });
 
-        res.send({ message: 'Grade change data received', gradeChangeRecord, updatedStudentRecord, referenceData });
+        if (!learningArea) {
+            return res.status(404).send({ message: 'Learning area not found' });
+        }
+
+        const quarterParts = referenceData.quarter.split(': ');
+        const quarterName = quarterParts[1] || quarterParts[0];
+        const quarterMap = {
+            'First Quarter': 1,
+            'Second Quarter': 2,
+            'Third Quarter': 3,
+            'Fourth Quarter': 4
+        };
+        const quarterId = quarterMap[quarterName];
+
+        if (!quarterId) {
+            return res.status(400).send({ message: `Invalid quarter: ${referenceData.quarter}` });
+        }
+
+        const subjectData = updatedStudentRecord.subjects[learningArea.name];
+
+        if (!subjectData) {
+            return res.status(400).send({ message: `Subject data not found for ${learningArea.name}` });
+        }
+
+        await db.grade_snapshots.create({
+            learner_school_record_id: referenceData.learner_school_record_id,
+            quarter_id: quarterId,
+            teacher_id: teacher ? teacher.id : null,
+            learning_area_id: learningArea.id,
+            field: gradeChangeRecord.field,
+            previous_value: gradeChangeRecord.previous_value,
+            updated_value: gradeChangeRecord.updated_value,
+        });
+
+        await db.learner_grades.update({
+            writtenScores: subjectData.writtenScores,
+            writtenTotal: subjectData.writtenTotal,
+            writtenPS: subjectData.writtenPS,
+            writtenWS: subjectData.writtenWS,
+            performanceScores: subjectData.performanceScores,
+            performanceTotal: subjectData.performanceTotal,
+            performancePS: subjectData.performancePS,
+            performanceWS: subjectData.performanceWS,
+            examScores: subjectData.examScores,
+            examTotal: subjectData.examTotal,
+            examPS: subjectData.examPS,
+            examWS: subjectData.examWS,
+            initialGrade: subjectData.initialGrade,
+            termGrade: subjectData.termGrade,
+            descriptor: subjectData.descriptor,
+        }, {
+            where: {
+                learner_school_record_id: referenceData.learner_school_record_id,
+                learning_area_id: learningArea.id,
+                quarter_id: quarterId,
+            }
+        });
+
+        res.send({ message: 'Grade saved successfully' });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
