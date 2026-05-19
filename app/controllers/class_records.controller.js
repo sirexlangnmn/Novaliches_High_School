@@ -12,7 +12,7 @@ exports.getByLearningArea = async (req, res) => {
     const GRADE_LEVEL_ID = 1;
     const SECTION_ID = 1;
 
-    const QUARTER_ID = 1;
+    // const QUARTER_ID = 1;
 
     let school = null;
     let division = null;
@@ -50,27 +50,34 @@ exports.getByLearningArea = async (req, res) => {
     }
 
 
-    let quarter = null;
-    if (QUARTER_ID === 1) {
-        quarter = 'First Quarter';
-    } else if (QUARTER_ID === 2) {
-        quarter = 'Second Quarter';
-    } else if (QUARTER_ID === 3) {
-        quarter = 'Third Quarter';
-    } else if (QUARTER_ID === 4) {
-        quarter = 'Fourth Quarter';
-    }
+    // let quarter = null;
+    // if (QUARTER_ID === 1) {
+    //     quarter = 'First Quarter';
+    // } else if (QUARTER_ID === 2) {
+    //     quarter = 'Second Quarter';
+    // } else if (QUARTER_ID === 3) {
+    //     quarter = 'Third Quarter';
+    // } else if (QUARTER_ID === 4) {
+    //     quarter = 'Fourth Quarter';
+    // }
 
 
 
 
     try {
-        const { learningAreaCode } = req.body;
-        console.log('class_records.controller getByLearningArea learningAreaCode:', learningAreaCode)
+        const { learningAreaCode, quarterId } = req.body;
+        console.log('class_records.controller getByLearningArea learningAreaCode:', learningAreaCode);
+        console.log('class_records.controller getByLearningArea quarterId:', quarterId);
 
         if (!learningAreaCode) {
             return res.status(400).send({ message: 'Learning area code is required' });
         }
+
+        if (!quarterId) {
+            return res.status(400).send({ message: 'Quarter ID is required' });
+        }
+
+        let quarter = parseInt(quarterId, 10);
 
         const learningArea = await db.learning_areas.findOne({
             where: { code: learningAreaCode, status: 1 },
@@ -93,6 +100,7 @@ exports.getByLearningArea = async (req, res) => {
         });
 
         console.log('class_records.controller getByLearningArea learnerSchoolRecords:', learnerSchoolRecords)
+        console.log('class_records.controller getByLearningArea quarter:', quarter)
 
         const students = [];
 
@@ -103,6 +111,7 @@ exports.getByLearningArea = async (req, res) => {
             const grade = await db.learner_grades.findOne({
                 where: {
                     learner_school_record_id: record.id,
+                    quarter_id: quarter,
                     learning_area_id: learningArea.id,
                     status: 1,
                 },
@@ -158,6 +167,7 @@ exports.getByLearningArea = async (req, res) => {
 
             students.push({
                 id: record.learner_id,
+                learnerSchoolRecordId: record.id,
                 name,
                 subjects,
             });
@@ -205,15 +215,7 @@ exports.saveGradeChange = async (req, res) => {
             return res.status(404).send({ message: 'Learning area not found' });
         }
 
-        const quarterParts = referenceData.quarter.split(': ');
-        const quarterName = quarterParts[1] || quarterParts[0];
-        const quarterMap = {
-            'First Quarter': 1,
-            'Second Quarter': 2,
-            'Third Quarter': 3,
-            'Fourth Quarter': 4
-        };
-        const quarterId = quarterMap[quarterName];
+        const quarterId = parseInt(referenceData.quarter, 10);
 
         if (!quarterId) {
             return res.status(400).send({ message: `Invalid quarter: ${referenceData.quarter}` });
@@ -225,39 +227,72 @@ exports.saveGradeChange = async (req, res) => {
             return res.status(400).send({ message: `Subject data not found for ${learningArea.name}` });
         }
 
-        await db.grade_snapshots.create({
-            learner_school_record_id: referenceData.learner_school_record_id,
-            quarter_id: quarterId,
-            teacher_id: teacher ? teacher.id : null,
-            learning_area_id: learningArea.id,
-            field: gradeChangeRecord.field,
-            previous_value: gradeChangeRecord.previous_value,
-            updated_value: gradeChangeRecord.updated_value,
-        });
-
-        await db.learner_grades.update({
-            writtenScores: subjectData.writtenScores,
-            writtenTotal: subjectData.writtenTotal,
-            writtenPS: subjectData.writtenPS,
-            writtenWS: subjectData.writtenWS,
-            performanceScores: subjectData.performanceScores,
-            performanceTotal: subjectData.performanceTotal,
-            performancePS: subjectData.performancePS,
-            performanceWS: subjectData.performanceWS,
-            examScores: subjectData.examScores,
-            examTotal: subjectData.examTotal,
-            examPS: subjectData.examPS,
-            examWS: subjectData.examWS,
-            initialGrade: subjectData.initialGrade,
-            termGrade: subjectData.termGrade,
-            descriptor: subjectData.descriptor,
-        }, {
+        const existingGrade = await db.learner_grades.findOne({
             where: {
                 learner_school_record_id: referenceData.learner_school_record_id,
                 learning_area_id: learningArea.id,
                 quarter_id: quarterId,
             }
         });
+
+        if (!existingGrade) {
+            await db.learner_grades.create({
+                learner_school_record_id: referenceData.learner_school_record_id,
+                quarter_id: quarterId,
+                teacher_id: teacher ? teacher.id : null,
+                learning_area_id: learningArea.id,
+                writtenScores: subjectData.writtenScores,
+                writtenTotal: subjectData.writtenTotal,
+                writtenPS: subjectData.writtenPS,
+                writtenWS: subjectData.writtenWS,
+                performanceScores: subjectData.performanceScores,
+                performanceTotal: subjectData.performanceTotal,
+                performancePS: subjectData.performancePS,
+                performanceWS: subjectData.performanceWS,
+                examScores: subjectData.examScores,
+                examTotal: subjectData.examTotal,
+                examPS: subjectData.examPS,
+                examWS: subjectData.examWS,
+                initialGrade: subjectData.initialGrade,
+                termGrade: subjectData.termGrade,
+                descriptor: subjectData.descriptor,
+                status: 1,
+            });
+        } else {
+            await db.grade_snapshots.create({
+                learner_school_record_id: referenceData.learner_school_record_id,
+                quarter_id: quarterId,
+                teacher_id: teacher ? teacher.id : null,
+                learning_area_id: learningArea.id,
+                field: gradeChangeRecord.field,
+                previous_value: gradeChangeRecord.previous_value,
+                updated_value: gradeChangeRecord.updated_value,
+            });
+
+            await db.learner_grades.update({
+                writtenScores: subjectData.writtenScores,
+                writtenTotal: subjectData.writtenTotal,
+                writtenPS: subjectData.writtenPS,
+                writtenWS: subjectData.writtenWS,
+                performanceScores: subjectData.performanceScores,
+                performanceTotal: subjectData.performanceTotal,
+                performancePS: subjectData.performancePS,
+                performanceWS: subjectData.performanceWS,
+                examScores: subjectData.examScores,
+                examTotal: subjectData.examTotal,
+                examPS: subjectData.examPS,
+                examWS: subjectData.examWS,
+                initialGrade: subjectData.initialGrade,
+                termGrade: subjectData.termGrade,
+                descriptor: subjectData.descriptor,
+            }, {
+                where: {
+                    learner_school_record_id: referenceData.learner_school_record_id,
+                    learning_area_id: learningArea.id,
+                    quarter_id: quarterId,
+                }
+            });
+        }
 
         res.send({ message: 'Grade saved successfully' });
     } catch (error) {

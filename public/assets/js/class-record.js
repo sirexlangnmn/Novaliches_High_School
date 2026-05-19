@@ -3,6 +3,14 @@ let studentsData = [];
 
 function initClassRecord() {
     loadLearningAreas();
+    document.getElementById('select-quarter').addEventListener('change', function() {
+        document.getElementById('learning-areas').selectedIndex = 0;
+        document.getElementById('student-rows').innerHTML = '';
+        document.getElementById('subject-display').textContent = '\u2014';
+        document.getElementById('teacher-name').textContent = '';
+        currentLearningArea = null;
+        studentsData = [];
+    });
     document.getElementById('learning-areas').addEventListener('change', onLearningAreaChange);
 }
 
@@ -23,6 +31,12 @@ function loadLearningAreas() {
 }
 
 function onLearningAreaChange() {
+    var quarterId = document.getElementById('select-quarter').value;
+    if (!quarterId) {
+        alert('Please select a quarter first.');
+        this.selectedIndex = 0;
+        return;
+    }
     var code = this.value;
     if (!code) {
         document.getElementById('student-rows').innerHTML = '';
@@ -32,18 +46,18 @@ function onLearningAreaChange() {
         studentsData = [];
         return;
     }
-    fetchClassRecords(code);
+    fetchClassRecords(code, quarterId);
 }
 
-function fetchClassRecords(code) {
-    console.log('Fetching class records for learning area code:', code);
+function fetchClassRecords(code, quarterId) {
+    console.log('Fetching class records for learning area code:', code, 'quarter:', quarterId);
     var loadingEl = document.getElementById('loading-indicator');
     if (loadingEl) loadingEl.style.display = 'inline';
 
     fetch('/api/get/class-records/by-learning-area', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learningAreaCode: code }),
+        body: JSON.stringify({ learningAreaCode: code, quarterId: quarterId }),
     })
         .then(function (res) { return res.json(); })
         .then(function (data) {

@@ -471,7 +471,16 @@
                             <a href="index.html">Home</a>
                         </li>
                         <li>Class Record</li>
-                        <!-- add dropdown menu for learning areas -->
+                        <!-- add dropdown menu for quarter and learning areas -->
+                        <li>
+                            <select class="form-control" id="select-quarter" style="font-size: 20px; height: 40px;">
+                                <option value="">Select Quarter</option>
+                                <option value="1">First Quarter</option>
+                                <option value="2">Second Quarter</option>
+                                <option value="3">Third Quarter</option>
+                                <option value="4">Fourth Quarter</option>
+                            </select>
+                        </li>
                         <li>
                             <select class="form-control" id="learning-areas" style="font-size: 20px; height: 40px;">
                                 <option value="">Select Learning Area</option>
@@ -554,7 +563,7 @@
                                     </td>
 
                                     <td id="quarter-display" style="border:1px solid #000; font-weight:bold; padding-left:10px;">
-                                        TERM 1: <span style="font-weight:normal;"></span>
+                                        <span id="quarter-label" style="font-weight:normal;"></span>
                                     </td>
 
                                     <td style="border:1px solid #000; font-weight:bold; padding-left:10px;">
@@ -1213,7 +1222,7 @@
                 const studentFromData = studentsData.students.find(s => s.id === studentId);
                 const subjectData = studentFromData?.subjects?.[currentSubjectName] || {};
                 const teacherName = document.getElementById('teacher-name').textContent;
-                const quarterText = document.getElementById('quarter-display').textContent.trim();
+                const quarterText = document.getElementById('quarter-display').dataset.quarter;
 
                 const changeRecord = {
                     student_id: studentId,
@@ -1223,7 +1232,7 @@
                 };
 
                 const referenceData = {
-                    learner_school_record_id: subjectData.learner_school_record_id || null,
+                    learner_school_record_id: studentFromData?.learnerSchoolRecordId || null,
                     quarter: quarterText,
                     teacher: teacherName,
                     learning_area: currentSubjectName
@@ -1326,12 +1335,12 @@
                     .catch(err => console.error('Error loading learning areas:', err));
             }
 
-            function fetchClassRecords(code, name) {
+            function fetchClassRecords(code, name, quarterId) {
                 currentSubjectName = name;
                 fetch('/api/get/class-records/by-learning-area', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ learningAreaCode: code }),
+                    body: JSON.stringify({ learningAreaCode: code, quarterId: quarterId }),
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -1340,7 +1349,9 @@
                     document.getElementById('school-name').textContent = data.school || '';
                     document.getElementById('division-name').textContent = data.division || '';
                     document.getElementById('school-year').textContent = data.schoolYear || '';
-                    document.getElementById('quarter-display').textContent = data.quarter || '';
+                    const quarterLabels = { 1: '1st Quarter', 2: '2nd Quarter', 3: '3rd Quarter', 4: '4th Quarter' };
+                    document.getElementById('quarter-label').textContent = quarterLabels[data.quarter] || '';
+                    document.getElementById('quarter-display').dataset.quarter = data.quarter;
                     document.getElementById('grade-section').textContent = data.gradeLevel && data.section ? `${data.gradeLevel} - ${data.section}` : '';
 
                     const firstStudent = data.students[0];
@@ -1352,10 +1363,23 @@
                 .catch(error => console.error('Error loading data:', error));
             }
 
+            document.getElementById('select-quarter').addEventListener('change', function() {
+                const laSelect = document.getElementById('learning-areas');
+                laSelect.selectedIndex = 0;
+                document.getElementById('student-rows').innerHTML = '';
+                document.getElementById('teacher-name').textContent = '';
+            });
+
             document.getElementById('learning-areas').addEventListener('change', function() {
+                const quarterId = document.getElementById('select-quarter').value;
+                if (!quarterId) {
+                    alert('Please select a quarter first.');
+                    this.selectedIndex = 0;
+                    return;
+                }
                 const opt = this.options[this.selectedIndex];
                 if (opt && opt.value) {
-                    fetchClassRecords(opt.value, opt.textContent);
+                    fetchClassRecords(opt.value, opt.textContent, quarterId);
                 } else {
                     document.getElementById('student-rows').innerHTML = '';
                     document.getElementById('teacher-name').textContent = '';
