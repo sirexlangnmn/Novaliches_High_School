@@ -375,4 +375,17 @@
 </table>
 
 </body>
+<script>
+    (function() {
+        var data = null;
+        try {
+            data = JSON.parse(localStorage.getItem('form137Data'));
+        } catch(e) {}
+        if (data) {
+            document.body.innerHTML = document.body.innerHTML.replace(/\{\{(\w+)\}\}/g, function(match, key) {
+                return data[key] !== undefined && data[key] !== null ? data[key] : '';
+            });
+        }
+    })();
+</script>
 </html>
