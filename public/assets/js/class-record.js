@@ -112,7 +112,23 @@ function createStudentRow(student, index) {
     nameCell.style.border = '1px solid #000';
     nameCell.style.textAlign = 'left';
     nameCell.style.paddingLeft = '10px';
+    nameCell.style.cursor = 'pointer';
     nameCell.textContent = (index + 1) + '. ' + student.name;
+    nameCell.addEventListener('click', function () {
+        console.log('learner_school_record_id:', student.learnerSchoolRecordId);
+        fetch('/api/get/student/form-137-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ learnerSchoolRecordId: student.learnerSchoolRecordId }),
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            console.log('form-137 response:', data);
+        })
+        .catch(function (err) {
+            console.error('Error fetching form-137 data:', err);
+        });
+    });
     row.appendChild(nameCell);
 
     row.appendChild(createGradeCell(student.q1));

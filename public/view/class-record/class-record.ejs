@@ -870,10 +870,18 @@
                 nameCell.id = `student-name-${sid}`;
                 nameCell.textContent = `${index + 1}. ${student.name}`;
                 nameCell.addEventListener('click', () => {
+                    console.log('learner_school_record_id:', student.learnerSchoolRecordId);
                     const studentData = collectStudentData(sid);
                     studentData.subject = currentSubjectName;
                     localStorage.setItem('selectedStudent', JSON.stringify(studentData));
-                    window.location.href = '/form-137-ui';
+                    fetch('/api/get/student/form-137-data', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ learnerSchoolRecordId: student.learnerSchoolRecordId }),
+                    })
+                    .then(res => res.json())
+                    .then(data => console.log('form-137 response:', data))
+                    .catch(err => console.error('Error fetching form-137 data:', err));
                 });
                 row.appendChild(nameCell);
 

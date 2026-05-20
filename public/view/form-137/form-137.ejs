@@ -6,7 +6,11 @@
     <title>SF10-JHS Form 137</title>
     <style>
         @page { size: A4 portrait; margin: 8mm; }
+        .no-print { text-align: center; margin-bottom: 10px; }
+        .no-print button { padding: 10px 24px; font-size: 14px; cursor: pointer; background: #2563eb; color: #fff; border: none; border-radius: 6px; }
+        .no-print button:hover { background: #1d4ed8; }
         @media print {
+            .no-print { display: none !important; }
             body { padding: 0 !important; margin: 0 !important; }
             body, td, th { font-size: 9px !important; }
             table { margin-top: 1px !important; }
@@ -28,6 +32,10 @@
     </style>
 </head>
 <body style="font-family: Arial, sans-serif; margin:0; padding:10px; font-size:12px; color:#000;">
+
+<div class="no-print">
+    <button onclick="window.print()">Download as PDF</button>
+</div>
 
 <table style="width:100%; border-collapse:collapse;">
     <tr>
