@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
         updated_value: {
             type: Sequelize.JSON,
         },
+        createdBy:{
+            type: Sequelize.INTEGER,
+        },
         status: {
             type: Sequelize.TINYINT,
             defaultValue: 1,

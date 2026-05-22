@@ -21,6 +21,10 @@ module.exports = (sequelize, Sequelize) => {
         school_type: {
             type: Sequelize.STRING,
         },
+        status: {
+            type: Sequelize.TINYINT,
+            defaultValue: 1,
+        },
     });
 
     return Schools;

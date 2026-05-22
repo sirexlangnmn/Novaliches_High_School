@@ -5,5 +5,6 @@ middleware.largeScaleCompanyRegistrationValidation = require('./validations/larg
 middleware.traderScaleCompanyRegistrationValidation = require('./validations/trader-scale-company-registration.validation.js');
 middleware.login_process = require('./validations/login_process.validations.js');
 middleware.registration_v2 = require('./validations/registration_v2.validations.js');
+middleware.authenticate = require('./auth.js');
 
 module.exports = middleware;

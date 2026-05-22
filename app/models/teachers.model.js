@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
         middle_name: {
             type: Sequelize.STRING,
         },
+        user_account_id: {
+            type: Sequelize.INTEGER,
+        },
         status: {
             type: Sequelize.TINYINT,
             defaultValue: 1,

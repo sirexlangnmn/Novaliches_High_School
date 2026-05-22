@@ -1214,6 +1214,10 @@
             }
 
             function onGradeChange(studentId, inputEl) {
+                console.log('=== onGradeChange DEBUG ===');
+                console.log('currentSubjectName is:', JSON.stringify(currentSubjectName));
+                console.log('studentsData keys:', Object.keys(studentsData));
+                console.log('studentsData.students length:', studentsData.students ? studentsData.students.length : 'UNDEFINED');
                 const field = inputEl.dataset.field;
                 const category = gradeFieldCategory[field] || field;
                 let originalValues, updatedValues;
@@ -1348,6 +1352,7 @@
             }
 
             function fetchClassRecords(code, name, quarterId) {
+                console.log('fetchClassRecords called with name:', JSON.stringify(name), 'code:', JSON.stringify(code), 'quarterId:', JSON.stringify(quarterId));
                 currentSubjectName = name;
                 fetch('/api/get/class-records/by-learning-area', {
                     method: 'POST',
