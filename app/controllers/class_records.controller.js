@@ -4,7 +4,7 @@ const sequelizeConfig = require('../config/sequelize.config.js');
 
 const Op = db.Sequelize.Op;
 
-const TEACHER_ID = 1;
+const TEACHER_ID = 3; // 1 is adviser teacher. Else subject teacher
 const SCHOOL_YEAR_ID = 1;
 
 const isTeacherAdviserOfSection = async (teacherId, sectionId) => {
@@ -33,30 +33,58 @@ exports.getMyClasses = async (req, res) => {
             return res.status(404).send({ message: 'School year not found' });
         }
 
-        console.log('[3/6] Querying teacher_assignments...');
-        console.log('db.teacher_assignments exists?:', !!db.teacher_assignments);
+        console.log('[3/6] Checking if teacher is section adviser...');
+        const adviserSection = await db.sections.findOne({
+            where: { adviser_teacher_id: TEACHER_ID, school_year_id: SCHOOL_YEAR_ID, status: 1 },
+            include: [{ model: db.grade_levels }],
+        });
+        console.log('[3/6] Adviser section:', adviserSection ? `${adviserSection.name} (${adviserSection.grade_level ? adviserSection.grade_level.name : '?'})` : 'NONE');
+
+        console.log('[4/6] Querying teacher_assignments...');
+        let assignmentWhere;
+        if (adviserSection) {
+            console.log('[4/6] Teacher is ADVISER — fetching ALL subjects assigned to section:', adviserSection.id);
+            assignmentWhere = {
+                section_id: adviserSection.id,
+                school_year_id: SCHOOL_YEAR_ID,
+                status: 1,
+            };
+        } else {
+            console.log('[4/6] Teacher is NOT adviser — fetching only their own assignments');
+            assignmentWhere = {
+                teacher_id: TEACHER_ID,
+                school_year_id: SCHOOL_YEAR_ID,
+                status: 1,
+            };
+        }
+
         const assignments = await db.teacher_assignments.findAll({
-            where: { teacher_id: TEACHER_ID, school_year_id: SCHOOL_YEAR_ID, status: 1 },
+            where: assignmentWhere,
             include: [
                 { model: db.grade_levels },
                 { model: db.sections },
                 { model: db.learning_areas },
             ],
         });
-        console.log('[3/6] Assignments found:', assignments ? assignments.length : 0);
+        console.log('[4/6] Assignments found:', assignments ? assignments.length : 0);
         if (assignments && assignments.length > 0) {
             assignments.forEach((a, i) => {
                 console.log(`  Assignment ${i + 1}: subject=${a.learning_area ? a.learning_area.name : '?'}, section=${a.section ? a.section.name : '?'}, grade=${a.grade_level ? a.grade_level.name : '?'}`);
             });
         }
 
-        console.log('[4/6] Fetching school...');
+        console.log('[5/6] Fetching school...');
         const school = await db.schools.findOne({ where: { status: 1 } });
-        console.log('[4/6] School result:', school ? school.school_name : 'NONE');
+        console.log('[5/6] School result:', school ? school.school_name : 'NONE');
 
-        console.log('[5/6] Counting students per assignment...');
+        console.log('[6/6] Counting students per assignment...');
+        const seenCodes = new Set();
         const classes = [];
         for (const assignment of assignments) {
+            const code = assignment.learning_area ? assignment.learning_area.code : null;
+            if (seenCodes.has(code)) continue;
+            seenCodes.add(code);
+
             const studentCount = await db.learner_school_records.count({
                 where: {
                     section_id: assignment.section_id,
@@ -70,7 +98,7 @@ exports.getMyClasses = async (req, res) => {
             classes.push({
                 assignmentId: assignment.id,
                 subject: assignment.learning_area ? assignment.learning_area.name : null,
-                subjectCode: assignment.learning_area ? assignment.learning_area.code : null,
+                subjectCode: code,
                 gradeLevel: assignment.grade_level ? assignment.grade_level.name : null,
                 section: assignment.section ? assignment.section.name : null,
                 sectionId: assignment.section_id,
@@ -78,14 +106,6 @@ exports.getMyClasses = async (req, res) => {
                 studentCount,
             });
         }
-
-        console.log('[6/6] Checking if teacher is section adviser...');
-        console.log('db.sections exists?:', !!db.sections);
-        const adviserSection = await db.sections.findOne({
-            where: { adviser_teacher_id: TEACHER_ID, school_year_id: SCHOOL_YEAR_ID, status: 1 },
-            include: [{ model: db.grade_levels }],
-        });
-        console.log('[6/6] Adviser section:', adviserSection ? `${adviserSection.name} (${adviserSection.grade_level ? adviserSection.grade_level.name : '?'})` : 'NONE');
 
         console.log('=== getMyClasses response ===');
         res.send({

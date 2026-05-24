@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
         },
         lrn: {
-            type: Sequelize.STRING(12),
+            type: Sequelize.STRING,
         },
         birthdate: {
             type: Sequelize.DATEONLY,

@@ -15,16 +15,20 @@ function initClassRecord() {
 }
 
 function loadLearningAreas() {
-    fetch('/api/get/learning-areas/all', { method: 'POST' })
+    fetch('/api/get/my-classes', { method: 'POST' })
         .then(function (res) { return res.json(); })
-        .then(function (areas) {
+        .then(function (data) {
             var select = document.getElementById('learning-areas');
             select.innerHTML = '<option value="">Select Learning Area</option>';
-            areas.forEach(function (area) {
-                var opt = document.createElement('option');
-                opt.value = area.code;
-                opt.textContent = area.name;
-                select.appendChild(opt);
+            var seen = {};
+            data.classes.forEach(function (cls) {
+                if (cls.subjectCode && !seen[cls.subjectCode]) {
+                    seen[cls.subjectCode] = true;
+                    var opt = document.createElement('option');
+                    opt.value = cls.subjectCode;
+                    opt.textContent = cls.subject;
+                    select.appendChild(opt);
+                }
             });
         })
         .catch(function (err) { return console.error('Error loading learning areas:', err); });

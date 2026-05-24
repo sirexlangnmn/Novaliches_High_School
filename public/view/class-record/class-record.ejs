@@ -1336,16 +1336,20 @@
             }
 
             function loadLearningAreas() {
-                fetch('/api/get/learning-areas/all', { method: 'POST' })
+                fetch('/api/get/my-classes', { method: 'POST' })
                     .then(res => res.json())
-                    .then(areas => {
+                    .then(data => {
                         const select = document.getElementById('learning-areas');
                         select.innerHTML = '<option value="">Select Learning Area</option>';
-                        areas.forEach(area => {
-                            const opt = document.createElement('option');
-                            opt.value = area.code;
-                            opt.textContent = area.name;
-                            select.appendChild(opt);
+                        const seen = new Set();
+                        data.classes.forEach(cls => {
+                            if (cls.subjectCode && !seen.has(cls.subjectCode)) {
+                                seen.add(cls.subjectCode);
+                                const opt = document.createElement('option');
+                                opt.value = cls.subjectCode;
+                                opt.textContent = cls.subject;
+                                select.appendChild(opt);
+                            }
                         });
                     })
                     .catch(err => console.error('Error loading learning areas:', err));
