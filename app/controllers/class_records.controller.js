@@ -4,8 +4,8 @@ const sequelizeConfig = require('../config/sequelize.config.js');
 
 const Op = db.Sequelize.Op;
 
-const TEACHER_ID = 3; // 1 is adviser teacher. Else subject teacher
-const SCHOOL_YEAR_ID = 1;
+const TEACHER_ID = parseInt(process.env.TEACHER_ID, 10) || 1;
+const SCHOOL_YEAR_ID = parseInt(process.env.SCHOOL_YEAR_ID, 10) || 1;
 
 const isTeacherAdviserOfSection = async (teacherId, sectionId) => {
     const section = await db.sections.findOne({
