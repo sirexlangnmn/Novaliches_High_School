@@ -12,6 +12,10 @@ module.exports = (sequelize, Sequelize) => {
         learning_area_id: {
             type: Sequelize.INTEGER,
         },
+        sub_component: {
+            type: Sequelize.ENUM('Music', 'Arts', 'Physical Education', 'Health'),
+            allowNull: true,
+        },
         writtenScores: {
             type: Sequelize.JSON,
         },
@@ -64,7 +68,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.TINYINT,
             defaultValue: 1,
         },
-    });
+    }, { timestamps: true });
 
     return LearnerGrades;
 };

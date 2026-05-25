@@ -491,6 +491,15 @@
                                 <option value="">Select Learning Area</option>
                             </select>
                         </li>
+                        <li id="mapeh-subcomponent-li" style="display:none;">
+                            <select class="form-control" id="mapeh-subcomponent" style="font-size: 20px; height: 40px;">
+                                <option value="">Select Sub-component</option>
+                                <option value="Music">Music</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Physical Education">Physical Education</option>
+                                <option value="Health">Health</option>
+                            </select>
+                        </li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -1205,11 +1214,11 @@
                     termCell.style.color = termGrade < 75 ? 'red' : '';
                 }
 
-                let descriptor = 'Beginning';
-                if (termGrade >= 90) descriptor = 'Advanced';
-                else if (termGrade >= 85) descriptor = 'Proficient';
-                else if (termGrade >= 80) descriptor = 'Approaching Proficiency';
-                else if (termGrade >= 75) descriptor = 'Developing';
+                let descriptor = 'Did Not Meet Expectations';
+                if (termGrade >= 90) descriptor = 'Outstanding';
+                else if (termGrade >= 85) descriptor = 'Very Satisfactory';
+                else if (termGrade >= 80) descriptor = 'Satisfactory';
+                else if (termGrade >= 75) descriptor = 'Fairly Satisfactory';
 
                 const descCell = document.querySelector(`td[data-student-id="${studentId}"][data-field="descriptor"]`);
                 if (descCell) {
@@ -1252,11 +1261,13 @@
                     updated_value: updatedValues
                 };
 
+                const subComponent = document.getElementById('mapeh-subcomponent')?.value || null;
                 const referenceData = {
                     learner_school_record_id: studentFromData?.learnerSchoolRecordId || null,
                     quarter: quarterText,
                     teacher: teacherName,
-                    learning_area: currentSubjectName
+                    learning_area: currentSubjectName,
+                    subComponent
                 };
 
                 console.log('Grade Change Record:', JSON.stringify(changeRecord, null, 2));
@@ -1360,13 +1371,15 @@
                     .catch(err => console.error('Error loading learning areas:', err));
             }
 
-            function fetchClassRecords(code, name, quarterId) {
-                console.log('fetchClassRecords called with name:', JSON.stringify(name), 'code:', JSON.stringify(code), 'quarterId:', JSON.stringify(quarterId));
+            function fetchClassRecords(code, name, quarterId, subComponent) {
+                console.log('fetchClassRecords called with name:', JSON.stringify(name), 'code:', JSON.stringify(code), 'quarterId:', JSON.stringify(quarterId), 'subComponent:', subComponent);
                 currentSubjectName = name;
+                const body = { learningAreaCode: code, quarterId: quarterId };
+                if (subComponent) body.subComponent = subComponent;
                 fetch('/api/get/class-records/by-learning-area', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ learningAreaCode: code, quarterId: quarterId }),
+                    body: JSON.stringify(body),
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -1404,11 +1417,29 @@
                     return;
                 }
                 const opt = this.options[this.selectedIndex];
+                const mapehLi = document.getElementById('mapeh-subcomponent-li');
+                const mapehSelect = document.getElementById('mapeh-subcomponent');
+                if (opt && opt.value === 'mapeh') {
+                    mapehLi.style.display = '';
+                    mapehSelect.selectedIndex = 0;
+                } else {
+                    mapehLi.style.display = 'none';
+                    mapehSelect.selectedIndex = 0;
+                }
                 if (opt && opt.value) {
                     fetchClassRecords(opt.value, opt.textContent, quarterId);
                 } else {
                     document.getElementById('student-rows').innerHTML = '';
                     document.getElementById('teacher-name').textContent = '';
+                }
+            });
+
+            document.getElementById('mapeh-subcomponent').addEventListener('change', function() {
+                const laSelect = document.getElementById('learning-areas');
+                const quarterId = document.getElementById('select-quarter').value;
+                const opt = laSelect.options[laSelect.selectedIndex];
+                if (opt && opt.value && quarterId) {
+                    fetchClassRecords(opt.value, opt.textContent, quarterId, this.value);
                 }
             });
 

@@ -21,11 +21,17 @@ module.exports = (sequelize, Sequelize) => {
         school_type: {
             type: Sequelize.STRING,
         },
+        principal_name: {
+            type: Sequelize.STRING,
+        },
+        school_head_name: {
+            type: Sequelize.STRING,
+        },
         status: {
             type: Sequelize.TINYINT,
             defaultValue: 1,
         },
-    });
+    }, { timestamps: true });
 
     return Schools;
 };

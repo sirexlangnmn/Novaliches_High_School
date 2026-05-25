@@ -145,7 +145,7 @@ exports.getByLearningArea = async (req, res) => {
             return res.status(404).send({ message: 'School year not found' });
         }
 
-        const { learningAreaCode, quarterId, sectionId } = req.body;
+        const { learningAreaCode, quarterId, sectionId, subComponent } = req.body;
 
         if (!learningAreaCode) {
             return res.status(400).send({ message: 'Learning area code is required' });
@@ -155,6 +155,9 @@ exports.getByLearningArea = async (req, res) => {
         }
 
         const quarter = parseInt(quarterId, 10);
+
+        const mapehSubComponents = ['Music', 'Arts', 'Physical Education', 'Health'];
+        const isMAPEH = learningAreaCode === 'mapeh';
 
         console.log('[3/7] Fetching learning area by code:', learningAreaCode);
         const learningArea = await db.learning_areas.findOne({
@@ -236,13 +239,20 @@ exports.getByLearningArea = async (req, res) => {
                 continue;
             }
 
+            const gradeWhere = {
+                learner_school_record_id: record.id,
+                quarter_id: quarter,
+                learning_area_id: learningArea.id,
+                status: 1,
+            };
+            if (isMAPEH && subComponent) {
+                gradeWhere.sub_component = subComponent;
+            } else if (isMAPEH) {
+                gradeWhere.sub_component = null;
+            }
+
             const grade = await db.learner_grades.findOne({
-                where: {
-                    learner_school_record_id: record.id,
-                    quarter_id: quarter,
-                    learning_area_id: learningArea.id,
-                    status: 1,
-                },
+                where: gradeWhere,
                 include: [{ model: db.teachers }],
             });
 
@@ -261,15 +271,15 @@ exports.getByLearningArea = async (req, res) => {
 
                 let descriptor = null;
                 if (grade.termGrade >= 90) {
-                    descriptor = 'Advance';
+                    descriptor = 'Outstanding';
                 } else if (grade.termGrade >= 85) {
-                    descriptor = 'Proficient';
+                    descriptor = 'Very Satisfactory';
                 } else if (grade.termGrade >= 80) {
-                    descriptor = 'Approaching Proficiency';
+                    descriptor = 'Satisfactory';
                 } else if (grade.termGrade >= 75) {
-                    descriptor = 'Developing';
-                } else if (grade.termGrade >= 66) {
-                    descriptor = 'Beginning';
+                    descriptor = 'Fairly Satisfactory';
+                } else {
+                    descriptor = 'Did Not Meet Expectations';
                 }
 
                 subjects[learningArea.name] = {
@@ -303,7 +313,7 @@ exports.getByLearningArea = async (req, res) => {
 
         console.log('=== getByLearningArea response ===');
         console.log('Students count:', students.length);
-        res.send({
+        const response = {
             schoolYear: schoolYear.year,
             school: school ? school.school_name : null,
             division: school ? school.division : null,
@@ -315,7 +325,13 @@ exports.getByLearningArea = async (req, res) => {
             learningArea: { id: learningArea.id, name: learningArea.name, code: learningArea.code },
             teacher: { id: teacher.id, name: `${teacher.first_name} ${teacher.last_name}` },
             students,
-        });
+        };
+        if (isMAPEH) {
+            response.isMAPEH = true;
+            response.subComponent = subComponent || null;
+            response.subComponents = mapehSubComponents;
+        }
+        res.send(response);
     } catch (error) {
         console.error('=== getByLearningArea ERROR ===');
         console.error('Message:', error.message);
@@ -427,15 +443,21 @@ exports.saveGradeChange = async (req, res) => {
         });
         console.log('[9/9] Snapshot saved');
 
+        const subComponent = referenceData.subComponent || null;
+
         console.log('Checking existing grade...');
         console.log('learner_school_record_id:', referenceData.learner_school_record_id);
-        const existingGrade = await db.learner_grades.findOne({
-            where: {
-                learner_school_record_id: referenceData.learner_school_record_id,
-                learning_area_id: learningArea.id,
-                quarter_id: quarterId,
-            },
-        });
+
+        const gradeWhere = {
+            learner_school_record_id: referenceData.learner_school_record_id,
+            learning_area_id: learningArea.id,
+            quarter_id: quarterId,
+        };
+        if (subComponent) {
+            gradeWhere.sub_component = subComponent;
+        }
+
+        const existingGrade = await db.learner_grades.findOne({ where: gradeWhere });
         console.log('Existing grade:', existingGrade ? `FOUND (ID: ${existingGrade.id})` : 'NOT FOUND - will create new');
 
         const gradeData = {
@@ -443,6 +465,7 @@ exports.saveGradeChange = async (req, res) => {
             quarter_id: quarterId,
             teacher_id: originalSubjectTeacherId || TEACHER_ID,
             learning_area_id: learningArea.id,
+            sub_component: subComponent,
             writtenScores: subjectData.writtenScores,
             writtenTotal: subjectData.writtenTotal,
             writtenPS: subjectData.writtenPS,
@@ -466,13 +489,7 @@ exports.saveGradeChange = async (req, res) => {
             console.log('Grade created successfully');
         } else {
             console.log('Updating existing grade...');
-            await db.learner_grades.update(gradeData, {
-                where: {
-                    learner_school_record_id: referenceData.learner_school_record_id,
-                    learning_area_id: learningArea.id,
-                    quarter_id: quarterId,
-                },
-            });
+            await db.learner_grades.update(gradeData, { where: gradeWhere });
             console.log('Grade updated successfully');
         }
 

@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
         uuid: {
             type: Sequelize.STRING,
         },
-    });
+    }, { timestamps: true });
 
     return Users_accounts;
 };

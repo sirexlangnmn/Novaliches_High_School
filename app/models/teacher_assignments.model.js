@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.TINYINT,
             defaultValue: 1,
         },
-    });
+    }, { timestamps: true });
 
     return TeacherAssignments;
 };
