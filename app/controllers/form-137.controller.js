@@ -93,8 +93,8 @@ exports.getForm137Data = async (req, res) => {
 
         const result = {
             // IMAGES
-            deped_logo_left: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Department_of_Education.svg',
-            deped_logo_right: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Department_of_Education.svg',
+            deped_logo_left: '<%= process.env.NOVA_HOSTNAME %>assets/img/Novaliches_High_School_Logo.png',
+            deped_logo_right: '<%= process.env.NOVA_HOSTNAME %>assets/img/Novaliches_High_School_Logo.png',
 
             // LEARNER'S INFORMATION
             last_name: learner ? learner.last_name || '' : '',
